@@ -1,3 +1,4 @@
+from pyexpat import model
 from django.db import models
 
 class Category(models.Model):
@@ -7,23 +8,36 @@ class Category(models.Model):
 class Intolerances(models.Model):
     intolerancename = models.CharField(max_length=255)
     intolerancephoto = models.CharField(max_length=255)
-    category = models.ManyToManyField(Category)
+
+class IntolerancesCategory(models.Model):
+    intolerance = models.ForeignKey(Intolerances)
+    category = models.ForeignKey(Category)
 
 class Meal(models.Model):
     mealname = models.CharField(max_length=255)
     mealdesc = models.TextField()
     price = models.FloatField()
-    category = models.ManyToManyField(Category)
     mealphoto = models.CharField(max_length=255,null = True)
     discount = models.FloatField(null = True)
+
+class MealCategory(models.Model):
+    meal = models.ForeignKey(Meal)
+    category = models.ForeignKey(Category)
 
 class User(models.Model):
     user = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     userphoto = models.CharField(max_length=255, null = True)
-    cart = models.ManyToManyField(Meal)
-    history = models.ManyToManyField(Meal)
+
+class UserMealCart(models.Model):
+    user = models.ForeignKey(User)
+    meal = models.ForeignKey(Meal)
+
+class UserMealHistory(models.Model):
+    user = models.ForeignKey(User)
+    meal = models.ForeignKey(Meal)
+
 
 class Question(models.Model):
     question = models.TextField()
