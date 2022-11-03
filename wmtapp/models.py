@@ -41,10 +41,10 @@ class Question(models.Model):
     question = models.TextField()
     priority = models.IntegerField()
 
-class QuestionCategory():
+class QuestionCategory(models.Model):
     question = models.ForeignKey(Question,on_delete=models.PROTECT)
     category = models.ForeignKey(Category,on_delete=models.PROTECT)
 
-class QuestionIntolerance():
+class QuestionIntolerance(models.Model):
     question = models.ForeignKey(Question,on_delete=models.PROTECT)
     intolerance = models.ForeignKey(Intolerance,on_delete=models.PROTECT)
