@@ -1,5 +1,6 @@
 from pyexpat import model
 from django.db import models
+from django.contrib.auth.models import User as djangouser
 
 class Category(models.Model):
     categoryname = models.CharField(max_length=255)
@@ -25,9 +26,7 @@ class MealCategory(models.Model):
     category = models.ForeignKey(Category,on_delete=models.PROTECT)
 
 class User(models.Model):
-    user = models.CharField(max_length=255)
-    password = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
+    uid = models.ForeignKey(djangouser,on_delete=models.PROTECT, null = True)
     userphoto = models.CharField(max_length=255, null = True)
 
 class UserMealCart(models.Model):
