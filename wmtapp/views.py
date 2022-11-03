@@ -28,7 +28,3 @@ def createuser(request):
 def menu(request):
     template = loader.get_template('menu.html')
     return HttpResponse(template.render())
-
-def mode(request):
-    template = loader.get_template('mode.html')
-    return HttpResponse(template.render())
