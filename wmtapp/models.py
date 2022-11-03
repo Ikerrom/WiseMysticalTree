@@ -5,13 +5,13 @@ class Category(models.Model):
     categoryname = models.CharField(max_length=255)
     categoryphoto = models.CharField(max_length=255)
 
-class Intolerances(models.Model):
+class Intolerance(models.Model):
     intolerancename = models.CharField(max_length=255)
     intolerancephoto = models.CharField(max_length=255)
 
-class IntolerancesCategory(models.Model):
-    intolerance = models.ForeignKey(Intolerances)
-    category = models.ForeignKey(Category)
+class IntoleranceCategory(models.Model):
+    intolerance = models.ForeignKey(Intolerance, on_delete=models.PROTECT)
+    category = models.ForeignKey(Category,on_delete=models.PROTECT)
 
 class Meal(models.Model):
     mealname = models.CharField(max_length=255)
@@ -21,8 +21,8 @@ class Meal(models.Model):
     discount = models.FloatField(null = True)
 
 class MealCategory(models.Model):
-    meal = models.ForeignKey(Meal)
-    category = models.ForeignKey(Category)
+    meal = models.ForeignKey(Meal,on_delete=models.PROTECT)
+    category = models.ForeignKey(Category,on_delete=models.PROTECT)
 
 class User(models.Model):
     user = models.CharField(max_length=255)
@@ -31,16 +31,21 @@ class User(models.Model):
     userphoto = models.CharField(max_length=255, null = True)
 
 class UserMealCart(models.Model):
-    user = models.ForeignKey(User)
-    meal = models.ForeignKey(Meal)
+    user = models.ForeignKey(User,on_delete=models.PROTECT)
+    meal = models.ForeignKey(Meal,on_delete=models.PROTECT)
 
 class UserMealHistory(models.Model):
-    user = models.ForeignKey(User)
-    meal = models.ForeignKey(Meal)
-
+    user = models.ForeignKey(User,on_delete=models.PROTECT)
+    meal = models.ForeignKey(Meal,on_delete=models.PROTECT)
 
 class Question(models.Model):
     question = models.TextField()
-    questioncategory = models.ManyToManyField(Category)
-    yes = models.ManyToManyField(Intolerances, null = True)
-    no = models.ManyToManyField(Intolerances, null = True)
+    priority = models.IntegerField()
+
+class QuestionCategory():
+    question = models.ForeignKey(Question,on_delete=models.PROTECT)
+    category = models.ForeignKey(Category,on_delete=models.PROTECT)
+
+class QuestionIntolerance():
+    question = models.ForeignKey(Question,on_delete=models.PROTECT)
+    intolerance = models.ForeignKey(Intolerance,on_delete=models.PROTECT)
