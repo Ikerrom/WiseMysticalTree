@@ -1,0 +1,15 @@
+h1{
+ color: #052afc;
+}
+table, th, td{
+    border:1px solid black;
+}
+
+div, table{
+    text-align: center;
+    margin: auto;
+}
+img{
+    width: 50%;
+    height: 50%;
+}
