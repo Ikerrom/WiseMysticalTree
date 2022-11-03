@@ -2,25 +2,29 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
+from django.template import loader
 
-def MainPage(request):
-    return HttpResponseRedirect(reverse('MainPage'))
 
-def Login(request):
-    return HttpResponseRedirect(reverse('Login'))
+def index(request):
+    template = loader.get_template('index.html')
+    return HttpResponse(template.render())
 
-def GuessPage(request):
-    return HttpResponseRedirect(reverse('GuessPage'))
+
+def login(request):
+    template = loader.get_template('login.html')
+    return HttpResponse(template.render())
 
 ###
-def CreateUser(request):
-    #Superusuario
-    user = User.objects.create_user('myusername', 'myemail@crazymail.com', 'mypassword')
-    
+def createuser(request):
+    # Superusuario
+    user = User.objects.create_user(
+        'myusername', 'myemail@crazymail.com', 'mypassword')
+
     user.first_name = 'John'
     user.last_name = 'Citizen'
     user.save()
 ###
 
-def Carta(request):
-    return HttpResponseRedirect(reverse('Carta'))
+def menu(request):
+    template = loader.get_template('menu.html')
+    return HttpResponse(template.render())
