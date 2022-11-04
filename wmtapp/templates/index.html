@@ -1,12 +1,42 @@
-{% load static %}
 <html>
-    <head>
-        <!--<link rel="stylesheet" href="{% static "MainPage.css" %}">-->
-    </head>
-    <body>
-        <div>
-            <h1>Main Page</h1>
-    </div>  
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  </head>
+  <body>
+    <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+      <h1>Main Page</h1>
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjzx1sSURg8Eiw-ViuHbghhZ6n8i3Yma_Svy6kS9Z81o04tGxQ4Jq5YDvj4xEEOLs6INQ&usqp=CAU">
+        <br>
+      <div id="questions" style="border: 2px solid black; display: flex; flex-direction: column; align-items: center; width:60%;">
+            <p>Text texto fraseText texto fraseText texto fraseText texto fraseText texto fraseText texto fraseText texto fraseText texto fraseText texto fraseText texto fraseText texto fraseText texto frase</p>
+            <button id="start" value="">Start</button>
+        </div>
+    </div>
+    <script>
+                $(document).ready(function () {
+                    $("#start").click(function () {
+                        let value = $("#start").val();
+                        let json = { value: value };
+                        let csrftoken = "{{csrf_token}}";
+                        $.ajax({
+                            type: 'POST',
+                            headers:{'X-CSRFToken': csrftoken},
+                            url: "{% url 'filterquestion' %}",
+                            data: json,
+                            dataType: 'json',
+                            success: function (data) {
+                                for (var i = 0; i < data.length; i++) {
+                                    let lerroa = data[i].question;
+                                    $('#questions').append(lerroa);
+                                }
+                            }, error: function (e) {
+                                alert(e);
+                            }
+                        })
 
-    </body>
+                    });
+                });
+
+    </script>
+  </body>
 </html>

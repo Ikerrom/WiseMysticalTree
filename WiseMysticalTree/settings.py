@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ulqb=789b#fhg)2%5s^f4pk=_o$(8d#cj5kq&6-4=^@0an-7^+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['WiseMysticalTree.cum','127.0.0.1','localhost']
 
 
 # Application definition
