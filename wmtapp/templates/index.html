@@ -13,30 +13,27 @@
         </div>
     </div>
     <script>
-                $(document).ready(function () {
-                    $("#start").click(function () {
-                        let value = $("#start").val();
-                        let json = { value: value };
-                        let csrftoken = "{{csrf_token}}";
-                        $.ajax({
-                            type: 'POST',
-                            headers:{'X-CSRFToken': csrftoken},
-                            url: "{% url 'filterquestion' %}",
-                            data: json,
-                            dataType: 'json',
-                            success: function (data) {
-                                for (var i = 0; i < data.length; i++) {
-                                    let lerroa = data[i].question;
-                                    $('#questions').append(lerroa);
-                                }
-                            }, error: function (e) {
-                                alert(e);
-                            }
-                        })
+      $(document).ready(function () {
+        $("#start").click(function () {
+          let value = $("#start").val();
+          let json = { value: value };
+          let csrftoken = "{{csrf_token}}";
+          $.ajax({
+            type: 'POST',
+            headers: { 'X-CSRFToken': csrftoken },
+            url: "{% url 'filterquestion' %}",
+            data: json,
+            dataType: 'json',
+            success: function (data) {
+              let lerroa = data[0].question;
+              $('#questions').html(lerroa);
+            }, error: function (e) {
+              alert(e);
+            }
+          })
 
-                    });
-                });
-
+        });
+      });
     </script>
   </body>
 </html>
