@@ -33,13 +33,24 @@ def menu(request):
 
 @csrf_exempt
 def filterquestion(request):
-    categories = request.POST.get('categories')
     intolerances = request.POST.get('intolerances')
     preferences = request.POST.get('preferences')
-    categorieslist = json.loads(categories)
+    categories = Category.objects.all()
+
+    categorylist =[]
+    for category in categories:
+        categorylist.append(category.categoryname)
+    
     intoleranceslist = json.loads(intolerances)
     preferenceslist = json.loads(preferences)
 
-    #questions = list(Question.objects.all().values())
+    for intolerance in intoleranceslist:
+        intoleranceobj = Intolerance.objects.get(intolerancename=intolerance)
+        intolerancecaregorylist = IntoleranceCategory.objects.filter(intolerance=intoleranceobj)
+        
+        for intolerancecaregory in intolerancecaregorylist:
+            categorylist.remove(intolerancecaregory.category.categoryname)
+
+    
 
     

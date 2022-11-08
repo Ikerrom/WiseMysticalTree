@@ -13,14 +13,13 @@
         </div>
     </div>
     <script>
-      var categories = ["cock","sex"];
-      var intolerances = [];
+//    var categories = ["Salados","Lactosa","Gluten","Pescados","Dulces","Legumbres","Fruta","Carne","Huevos","Verduras","Cereales","FrustosSecos","Lacteos"];
+      var intolerances = ["Celiaco","Vegano"];
       var preferences = [];
 
       $(document).ready(function () {
         $("#start").click(function () {
-          let json = {categories: JSON.stringify(categories), 
-                      intolerances:JSON.stringify(intolerances),
+          let json = {intolerances:JSON.stringify(intolerances),
                       preferences:JSON.stringify(preferences)};
           let csrftoken = "{{csrf_token}}";
           $.ajax({
