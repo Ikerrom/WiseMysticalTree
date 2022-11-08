@@ -13,10 +13,15 @@
         </div>
     </div>
     <script>
+      var categories = ["cock","sex"];
+      var intolerances = [];
+      var preferences = [];
+
       $(document).ready(function () {
         $("#start").click(function () {
-          let value = $("#start").val();
-          let json = { value: value };
+          let json = {categories: JSON.stringify(categories), 
+                      intolerances:JSON.stringify(intolerances),
+                      preferences:JSON.stringify(preferences)};
           let csrftoken = "{{csrf_token}}";
           $.ajax({
             type: 'POST',
