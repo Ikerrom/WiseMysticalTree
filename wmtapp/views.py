@@ -31,7 +31,6 @@ def createuser(request):
     user.save()
 ###
 
-
 def menu(request):
     template = loader.get_template('menu.html')
     return HttpResponse(template.render())
@@ -41,6 +40,7 @@ def menu(request):
 def filterquestion(request):
     intolerances = request.POST.get('intolerances')
     preferences = request.POST.get('preferences')
+    number = request.POST.get('number')
     categories = Category.objects.all()
 
     filteredquestions = []
@@ -69,18 +69,19 @@ def filterquestion(request):
                 if not already:
                     filteredquestions.append(questioncategory.question)
 
+
     swapped = False
     for i in range(len(filteredquestions)-1):
         for j in range(0,len(filteredquestions)-i-1):
             if filteredquestions[j].priority > filteredquestions[j + 1].priority:
                 swapped = True
-                filteredquestions[j].priority, filteredquestions[j + 1].priority = filteredquestions[j + 1].priority, filteredquestions[j].priority
+                filteredquestions[j], filteredquestions[j + 1] = filteredquestions[j + 1], filteredquestions[j]
         if not swapped:
             break;
     
-    question = QuestionIntolerance.objects.get(question=filteredquestions[0])
+    question = QuestionIntolerance.objects.get(question=filteredquestions[0+int(number)])
 
-    return JsonResponse([filteredquestions[0].question,question.intolerance.intolerancename],safe=False)
+    return JsonResponse([filteredquestions[0+int(number)].question,question.intolerance.intolerancename],safe=False)
     
 
  
