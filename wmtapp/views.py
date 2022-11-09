@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.forms.models import model_to_dict
 from django.contrib.auth.models import User
 from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
@@ -44,9 +45,9 @@ def filterquestion(request):
 
     filteredquestions = []
     categorylist = []
+
     for category in categories:
         categorylist.append(category.categoryname)
-
     intoleranceslist = json.loads(intolerances)
     preferenceslist = json.loads(preferences)
 
@@ -58,9 +59,28 @@ def filterquestion(request):
             categorylist.remove(intolerancecaregory.category.categoryname)
 
     questioncategories = list(QuestionCategory.objects.all())
-    
     for category in categorylist:
         for questioncategory in questioncategories:
             if category == questioncategory.category.categoryname:
-                filteredquestions.append(questioncategory.question)
-    print(filteredquestions)
+                already = False
+                for filteredquestion in filteredquestions:
+                    if questioncategory.question.question == filteredquestion.question:
+                        already= True
+                if not already:
+                    filteredquestions.append(questioncategory.question)
+
+    swapped = False
+    for i in range(len(filteredquestions)-1):
+        for j in range(0,len(filteredquestions)-i-1):
+            if filteredquestions[j].priority > filteredquestions[j + 1].priority:
+                swapped = True
+                filteredquestions[j].priority, filteredquestions[j + 1].priority = filteredquestions[j + 1].priority, filteredquestions[j].priority
+        if not swapped:
+            break;
+    
+    question = QuestionIntolerance.objects.get(question=filteredquestions[0])
+
+    return JsonResponse([filteredquestions[0].question,question.intolerance.intolerancename],safe=False)
+    
+
+ 

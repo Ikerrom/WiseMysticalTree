@@ -18,7 +18,7 @@ class IntoleranceCategory(models.Model):
     intolerance = models.ForeignKey(Intolerance, on_delete=models.PROTECT)
     category = models.ForeignKey(Category,on_delete=models.PROTECT)
     def __str__(self):
-        return u'%s'%self.category
+        return u'%s'%self.intolerance
 
 class Meal(models.Model):
     mealname = models.CharField(max_length=255)
@@ -63,10 +63,10 @@ class QuestionCategory(models.Model):
     question = models.ForeignKey(Question,on_delete=models.PROTECT)
     category = models.ForeignKey(Category,on_delete=models.PROTECT)
     def __str__(self):
-        return u'%s'%self.category
+        return u'%s'%self.question
 
 class QuestionIntolerance(models.Model):
     question = models.ForeignKey(Question,on_delete=models.PROTECT)
     intolerance = models.ForeignKey(Intolerance,on_delete=models.PROTECT)
     def __str__(self):
-        return u'%s'%self.intolerance
+        return u'%s'%self.question

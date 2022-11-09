@@ -1,43 +1,78 @@
 <html>
-  <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  </head>
-  <body>
-    <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-      <h1>Main Page</h1>
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjzx1sSURg8Eiw-ViuHbghhZ6n8i3Yma_Svy6kS9Z81o04tGxQ4Jq5YDvj4xEEOLs6INQ&usqp=CAU">
-        <br>
-      <div id="questions" style="border: 2px solid black; display: flex; flex-direction: column; align-items: center; width:60%;">
-            <p>Text texto fraseText texto fraseText texto fraseText texto fraseText texto fraseText texto fraseText texto fraseText texto fraseText texto fraseText texto fraseText texto fraseText texto frase</p>
-            <button id="start" value="">Start</button>
-        </div>
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+  <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+    <h1>Main Page</h1>
+    <img
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjzx1sSURg8Eiw-ViuHbghhZ6n8i3Yma_Svy6kS9Z81o04tGxQ4Jq5YDvj4xEEOLs6INQ&usqp=CAU">
+    <br>
+    <div id="questions"
+      style="border: 2px solid black; display: flex; flex-direction: column; align-items: center; width:60%;">
+      <p id="question">The most mystical and wise tree will choose the food for you</p>
+      <button id="start" value="">Start</button>
+      <button id="yes" value="" style="display:none;">Yes</button>
+      <button id="no" value="" style="display:none;">No</button>
     </div>
-    <script>
-//    var categories = ["Salados","Lactosa","Gluten","Pescados","Dulces","Legumbres","Fruta","Carne","Huevos","Verduras","Cereales","FrustosSecos","Lacteos"];
-      var intolerances = ["Celiaco"];
-      var preferences = [];
+  </div>
+  <script>
+    var intolerances = [];
+    var preferences = [];
 
-      $(document).ready(function () {
-        $("#start").click(function () {
-          let json = {intolerances:JSON.stringify(intolerances),
-                      preferences:JSON.stringify(preferences)};
-          let csrftoken = "{{csrf_token}}";
-          $.ajax({
-            type: 'POST',
-            headers: { 'X-CSRFToken': csrftoken },
-            url: "{% url 'filterquestion' %}",
-            data: json,
-            dataType: 'json',
-            success: function (data) {
-              let lerroa = data[0].question;
-              $('#questions').html(lerroa);
-            }, error: function (e) {
-              alert(e);
-            }
-          })
+    $(document).ready(function () {
 
-        });
+      $("#start").click(function () {
+        $("#yes").show();
+        $("#no").show();
+        $("#start").hide();
+        let json = {
+          intolerances: JSON.stringify(intolerances),
+          preferences: JSON.stringify(preferences)
+        };
+        let csrftoken = "{{csrf_token}}";
+        $.ajax({
+          type: 'POST',
+          headers: { 'X-CSRFToken': csrftoken },
+          url: "{% url 'filterquestion' %}",
+          data: json,
+          dataType: 'json',
+          success: function (data) {
+            let lerroa = data[0];
+            $("#yes").val(data[1]);
+            $('#question').html(lerroa);
+          }, error: function (e) {
+            alert(e);
+          }
+        })
       });
-    </script>
-  </body>
+
+      $("#yes").click(function () {
+        intolerances.push($("#yes").val());
+        let json = {
+          intolerances: JSON.stringify(intolerances),
+          preferences: JSON.stringify(preferences)
+        };
+        let csrftoken = "{{csrf_token}}";
+        $.ajax({
+          type: 'POST',
+          headers: { 'X-CSRFToken': csrftoken },
+          url: "{% url 'filterquestion' %}",
+          data: json,
+          dataType: 'json',
+          success: function (data) {
+            let lerroa = data[0];
+            $("#yes").val(data[1]);
+            $('#question').html(lerroa);
+          }, error: function (e) {
+            alert(e);
+          }
+        })
+      });
+    });
+  </script>
+</body>
+
 </html>
