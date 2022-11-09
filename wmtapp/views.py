@@ -68,8 +68,7 @@ def filterquestion(request):
                         already= True
                 if not already:
                     filteredquestions.append(questioncategory.question)
-
-
+                    
     swapped = False
     for i in range(len(filteredquestions)-1):
         for j in range(0,len(filteredquestions)-i-1):
