@@ -19,7 +19,7 @@
     </div>
   </div>
   <script>
-    var intolerances = [];
+    var categorygroups = [];
     var preferences = [];
     var notimes = 0;
     var number = 0;
@@ -31,7 +31,7 @@
         $("#no").show();
         $("#start").hide();
         let json = {
-          intolerances: JSON.stringify(intolerances),
+          categorygroups: JSON.stringify(categorygroups),
           preferences: JSON.stringify(preferences),
           number: JSON.stringify(number)
         };
@@ -53,10 +53,10 @@
       });
 
       $("#yes").click(function () {
-        intolerances.push($("#yes").val());
+        categorygroups.push($("#yes").val());
         number = notimes;
         let json = {
-          intolerances: JSON.stringify(intolerances),
+          categorygroups: JSON.stringify(categorygroups),
           preferences: JSON.stringify(preferences),
           number: JSON.stringify(number)
         };
@@ -81,7 +81,7 @@
         notimes++;
         number += 1;
         let json = {
-          intolerances: JSON.stringify(intolerances),
+          categorygroups: JSON.stringify(categorygroups),
           preferences: JSON.stringify(preferences),
           number: JSON.stringify(number)
         };

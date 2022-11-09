@@ -3,37 +3,37 @@ from django.db import models
 from django.contrib.auth.models import User as djangouser
 
 class Category(models.Model):
-    categoryname = models.CharField(max_length=255)
-    categoryphoto = models.CharField(max_length=255)
+    cname = models.CharField(max_length=255)
+    cphoto = models.CharField(max_length=255)
     def __str__(self):
-        return u'%s'%self.categoryname
+        return u'%s'%self.cname
 
-class Intolerance(models.Model):
-    intolerancename = models.CharField(max_length=255)
-    intolerancephoto = models.CharField(max_length=255)
+class CategoryGroup(models.Model):
+    cgname = models.CharField(max_length=255)
+    cgphoto = models.CharField(max_length=255)
     def __str__(self):
-        return u'%s'%self.intolerancename
+        return u'%s'%self.cgname
 
-class IntoleranceCategory(models.Model):
-    intolerance = models.ForeignKey(Intolerance, on_delete=models.PROTECT)
-    category = models.ForeignKey(Category,on_delete=models.PROTECT)
+class CategoryGroupCategory(models.Model):
+    cg = models.ForeignKey(CategoryGroup, on_delete=models.PROTECT)
+    c = models.ForeignKey(Category,on_delete=models.PROTECT)
     def __str__(self):
-        return u'%s'%self.intolerance
+        return u'%s'%self.cg
 
 class Meal(models.Model):
     mealname = models.CharField(max_length=255)
     mealdesc = models.TextField()
-    price = models.FloatField()
     mealphoto = models.CharField(max_length=255,null = True)
+    price = models.FloatField()
     discount = models.FloatField(null = True)
     def __str__(self):
         return u'%s'%self.mealname
 
 class MealCategory(models.Model):
     meal = models.ForeignKey(Meal,on_delete=models.PROTECT)
-    category = models.ForeignKey(Category,on_delete=models.PROTECT)
+    c = models.ForeignKey(Category,on_delete=models.PROTECT)
     def __str__(self):
-        return u'%s'%self.category
+        return u'%s'%self.c
 
 class User(models.Model):
     uid = models.ForeignKey(djangouser,on_delete=models.PROTECT, null = True)
@@ -61,12 +61,12 @@ class Question(models.Model):
 
 class QuestionCategory(models.Model):
     question = models.ForeignKey(Question,on_delete=models.PROTECT)
-    category = models.ForeignKey(Category,on_delete=models.PROTECT)
+    c = models.ForeignKey(Category,on_delete=models.PROTECT)
     def __str__(self):
         return u'%s'%self.question
 
-class QuestionIntolerance(models.Model):
+class QuestionCategoryGroup(models.Model):
     question = models.ForeignKey(Question,on_delete=models.PROTECT)
-    intolerance = models.ForeignKey(Intolerance,on_delete=models.PROTECT)
+    cg = models.ForeignKey(CategoryGroup,on_delete=models.PROTECT, null = True)
     def __str__(self):
         return u'%s'%self.question

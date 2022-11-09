@@ -38,37 +38,38 @@ def menu(request):
 
 @csrf_exempt
 def filterquestion(request):
-    intolerances = request.POST.get('intolerances')
+    cgfilterstr = request.POST.get('categorygroups')
     preferences = request.POST.get('preferences')
     number = request.POST.get('number')
-    categories = Category.objects.all()
-
     filteredquestions = []
     categorylist = []
 
-    for category in categories:
-        categorylist.append(category.categoryname)
-    intoleranceslist = json.loads(intolerances)
+    #POST gotten str to list
+    for category in Category.objects.all():
+        categorylist.append(category.cname)
+    cgfilterlist = json.loads(cgfilterstr)
     preferenceslist = json.loads(preferences)
 
-    for intolerance in intoleranceslist:
-        intoleranceobj = Intolerance.objects.get(intolerancename=intolerance)
-        intolerancecaregorylist = IntoleranceCategory.objects.filter(intolerance=intoleranceobj)
+    #Remove all categorygroup categories from category list
+    for cg in cgfilterlist:
+        cgobj = CategoryGroup.objects.get(cgname=cg)
+        cgcaregorylist = CategoryGroupCategory.objects.filter(cg=cgobj)
+        for cgcaregory in cgcaregorylist:
+            categorylist.remove(cgcaregory.c.cname)
 
-        for intolerancecaregory in intolerancecaregorylist:
-            categorylist.remove(intolerancecaregory.category.categoryname)
-
+    #Get filter questions,by cheking the questioncategories in the category list without duplicates
     questioncategories = list(QuestionCategory.objects.all())
     for category in categorylist:
         for questioncategory in questioncategories:
-            if category == questioncategory.category.categoryname:
+            if category == questioncategory.c.cname:
                 already = False
                 for filteredquestion in filteredquestions:
                     if questioncategory.question.question == filteredquestion.question:
                         already= True
                 if not already:
                     filteredquestions.append(questioncategory.question)
-                    
+
+    #Bubble sort the filteredquestions by priority
     swapped = False
     for i in range(len(filteredquestions)-1):
         for j in range(0,len(filteredquestions)-i-1):
@@ -78,9 +79,6 @@ def filterquestion(request):
         if not swapped:
             break;
     
-    question = QuestionIntolerance.objects.get(question=filteredquestions[0+int(number)])
-
-    return JsonResponse([filteredquestions[0+int(number)].question,question.intolerance.intolerancename],safe=False)
-    
-
- 
+    #Send back the data to the ajax
+    question = QuestionCategoryGroup.objects.get(question=filteredquestions[0+int(number)])
+    return JsonResponse([filteredquestions[0+int(number)].question,question.cg.cgname],safe=False)
