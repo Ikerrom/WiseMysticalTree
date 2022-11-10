@@ -7,6 +7,7 @@ urlpatterns = [
     path('filterquestion/', views.filterquestion, name='filterquestion'),
     
     path('menu/', views.menu, name='menu'),
+    #path('addtocarrito/', views.addtocarrito, name='addtocarrito'),
     
     path('login/', views.login, name='login'),
     

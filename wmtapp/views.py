@@ -34,9 +34,26 @@ def logout(request):
 
 
 def menu(request):
+    meal = Meal.objects.all()
+    mealcategory = MealCategory.objects.all()
     template = loader.get_template('menu.html')
-    return HttpResponse(template.render())
+    context = {
+    'meal': meal,
+    'mealcategory' : mealcategory,
+    }
+    return HttpResponse(template.render(context, request))
 
+#@csrf_exempt
+#def addtocarrito(request):
+#    mealname = request.POST['name']
+#    desc = request.POST['desc']
+#    price = request.POST['price']
+#    photo = request.POST['photo']
+#    sukaldariid = request.POST['sukaldari']
+#    sukaldariobj = Sukaldari.objects.get(id=sukaldariid)
+#    platera = Platera(name = name, desc = desc, price= price, photo = photo, sukaldari = sukaldariobj)
+#    platera.save()
+#    return HttpResponseRedirect(reverse('platerak',kwargs={'price': 0}))   
 
 @csrf_exempt
 def filterquestion(request):
