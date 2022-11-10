@@ -1,11 +1,42 @@
 {% load static %}
 <html>
-    <head>
-        <!--<link rel="stylesheet" href="{% static "MainPage.css" %}">-->
-    </head>
-    <body>
-        <div>
-            <h1>Carta</h1>
-        </div>  
-    </body>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  </head>
+  <body>
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      "
+    >
+      <div>
+        <h1>Carta</h1>
+      </div>
+      <div>
+
+        <table border="1">
+          {% for x in meal %}
+          <tr>
+            <td>{{ x.mealname }}</td>
+            <td>{{ x.mealdesc }}</td>
+            <td><img style="width: 10vh" src="{{ x.mealphoto }}" /></td>
+            <td>
+            {% for y in mealcategory %}
+                {% if x.id == y.meal.id %}
+                    {{ y.c.cphoto }}
+                {% endif %}
+            {% endfor %}
+            </td>
+            <td>{{ x.price }}</td>
+            <td>{{ x.discount }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+
+      </div>
+    </div>
+  </body>
 </html>
