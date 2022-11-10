@@ -2,34 +2,36 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.forms.models import model_to_dict
-from django.contrib.auth.models import User
 from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
 import json
 
+from django.contrib.auth.models import User as UserDj
+from django.shortcuts import get_object_or_404
 
+##
 def index(request):
-    template = loader.get_template('index.html')
-    return HttpResponse(template.render())
+    
+    
+    if request.user.id == None:
+        template = loader.get_template('index.html')
+        return HttpResponse(template.render())
+    
+    user = UserDj.objects.get(id = request.user.id)
+    return render(request, 'index.html', {'user': user})
+    
 
 
 def login(request):
     template = loader.get_template('login.html')
     return HttpResponse(template.render())
 
-###
+def logout(request):
+    template = loader.get_template('login.html')
+    return HttpResponse(template.render())
+##
 
-
-def createuser(request):
-    # Superusuario
-    user = User.objects.create_user(
-        'myusername', 'myemail@crazymail.com', 'mypassword')
-
-    user.first_name = 'John'
-    user.last_name = 'Citizen'
-    user.save()
-###
 
 def menu(request):
     template = loader.get_template('menu.html')
