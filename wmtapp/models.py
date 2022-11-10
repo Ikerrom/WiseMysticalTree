@@ -56,6 +56,7 @@ class UserMealHistory(models.Model):
 class Question(models.Model):
     question = models.TextField()
     priority = models.IntegerField()
+    preference = models.BooleanField(default = False)
     def __str__(self):
         return u'%s'%self.question
 

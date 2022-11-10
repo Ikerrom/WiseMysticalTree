@@ -23,7 +23,7 @@
     var preferences = [];
     var notimes = 0;
     var number = 0;
-
+    var preference = false;
     $(document).ready(function () {
 
       $("#start").click(function () {
@@ -54,6 +54,10 @@
 
       $("#yes").click(function () {
         categorygroups.push($("#yes").val());
+        if (preference) {
+          preferences.push($("#yes").val());
+        }
+
         number = notimes;
         let json = {
           categorygroups: JSON.stringify(categorygroups),
@@ -71,6 +75,7 @@
             let lerroa = data[0];
             $("#yes").val(data[1]);
             $('#question').html(lerroa);
+            preference = data[2];
           }, error: function (e) {
             alert(e);
           }
@@ -96,6 +101,7 @@
             let lerroa = data[0];
             $("#yes").val(data[1]);
             $('#question').html(lerroa);
+            preference = data[2];
           }, error: function (e) {
             alert(e);
           }
