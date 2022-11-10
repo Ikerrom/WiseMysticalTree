@@ -80,7 +80,11 @@ def filterquestion(request):
                 filteredquestions[j], filteredquestions[j + 1] = filteredquestions[j + 1], filteredquestions[j]
         if not swapped:
             break;
+
+    if int(number) < len(filteredquestions):
+        #Send back the data to the ajax
+        question = QuestionCategoryGroup.objects.get(question=filteredquestions[0+int(number)])
+        return JsonResponse([question.question.question,question.cg.cgname,question.question.preference],safe=False)
+    else:
+        return JsonResponse(["This is you meal","",True],safe=False)
     
-    #Send back the data to the ajax
-    question = QuestionCategoryGroup.objects.get(question=filteredquestions[0+int(number)])
-    return JsonResponse([filteredquestions[0+int(number)].question,question.cg.cgname],safe=False)
