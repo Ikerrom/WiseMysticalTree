@@ -5,6 +5,8 @@ urlpatterns = [
     path('', views.index, name='index'),
 
     path('filterquestion/', views.filterquestion, name='filterquestion'),
+    path('filtermeal/', views.filtermeal, name='filtermeal'),
+    
     
     path('menu/', views.menu, name='menu'),
     #path('addtocarrito/', views.addtocarrito, name='addtocarrito'),

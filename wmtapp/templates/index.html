@@ -6,12 +6,12 @@
 
 <body>
   <ul class="sidebar-nav">
-   {% if user.is_authenticated %}
-     <li>User: {{ user.get_username }}</li>
-     <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
-   {% else %}
-     <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
-   {% endif %}
+    {% if user.is_authenticated %}
+    <li>User: {{ user.get_username }}</li>
+    <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+    {% else %}
+    <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+    {% endif %}
   </ul>
 
 
@@ -26,6 +26,7 @@
       <button id="start" value="">Start</button>
       <button id="yes" value="" style="display:none;">Yes</button>
       <button id="no" value="" style="display:none;">No</button>
+      <button id="showmeal" value="" style="display:none;">Show</button>
     </div>
   </div>
 
@@ -72,7 +73,6 @@
         number = notimes;
         let json = {
           categorygroups: JSON.stringify(categorygroups),
-          preferences: JSON.stringify(preferences),
           number: JSON.stringify(number)
         };
         let csrftoken = "{{csrf_token}}";
@@ -83,10 +83,16 @@
           data: json,
           dataType: 'json',
           success: function (data) {
-            let lerroa = data[0];
-            $("#yes").val(data[1]);
-            $('#question').html(lerroa);
-            preference = data[2];
+            if (data[0] != "") {
+              $("#yes").val(data[1]);
+              $('#question').html(data[0]);
+              preference = data[2];
+            } else {
+              $('#question').html("The MysticalWiseTree thinks that the perfect meal for your need is");
+              $("#yes").hide();
+              $("#no").hide();
+              $("#showmeal").show();
+            }
           }, error: function (e) {
             alert(e);
           }
@@ -98,7 +104,6 @@
         number += 1;
         let json = {
           categorygroups: JSON.stringify(categorygroups),
-          preferences: JSON.stringify(preferences),
           number: JSON.stringify(number)
         };
         let csrftoken = "{{csrf_token}}";
@@ -109,10 +114,35 @@
           data: json,
           dataType: 'json',
           success: function (data) {
-            let lerroa = data[0];
-            $("#yes").val(data[1]);
-            $('#question').html(lerroa);
-            preference = data[2];
+            if (data[0] != "") {
+              $("#yes").val(data[1]);
+              $('#question').html(data[0]);
+              preference = data[2];
+            } else {
+              $('#question').html("The MysticalWiseTree thinks that the perfect meal for your need is");
+              $("#yes").hide();
+              $("#no").hide();
+              $("#showmeal").show();
+            }
+          }, error: function (e) {
+            alert(e);
+          }
+        })
+      });
+
+      $("#showmeal").click(function () {
+        let json = {
+          preferences: JSON.stringify(preferences),
+        };
+        let csrftoken = "{{csrf_token}}";
+        $.ajax({
+          type: 'POST',
+          headers: { 'X-CSRFToken': csrftoken },
+          url: "{% url 'filtermeal' %}",
+          data: json,
+          dataType: 'json',
+          success: function (data) {
+
           }, error: function (e) {
             alert(e);
           }

@@ -58,7 +58,6 @@ def menu(request):
 @csrf_exempt
 def filterquestion(request):
     cgfilterstr = request.POST.get('categorygroups')
-    preferences = request.POST.get('preferences')
     number = request.POST.get('number')
     filteredquestions = []
     categorylist = []
@@ -67,7 +66,7 @@ def filterquestion(request):
     for category in Category.objects.all():
         categorylist.append(category.cname)
     cgfilterlist = json.loads(cgfilterstr)
-    preferenceslist = json.loads(preferences)
+
 
     #Remove all categorygroup categories from category list
     for cg in cgfilterlist:
@@ -103,5 +102,24 @@ def filterquestion(request):
         question = QuestionCategoryGroup.objects.get(question=filteredquestions[0+int(number)])
         return JsonResponse([question.question.question,question.cg.cgname,question.question.preference],safe=False)
     else:
-        return JsonResponse(["This is you meal","",True],safe=False)
+        return JsonResponse(["","",False],safe=False)
     
+
+@csrf_exempt
+def filtermeal(request):
+    preferencesstr = request.POST.get('preferences')
+    preferenceslist = json.loads(preferencesstr)
+    filterclist = []
+    meallist = []
+
+    for preference in preferenceslist:
+        preferenceobj = CategoryGroup.objects.get(cgname = preference)
+        preferencecategorylist = CategoryGroupCategory.objects.filter(cg=preferenceobj)
+        for preferencecategory in preferencecategorylist:
+            filterclist.append(preferencecategory.c)
+
+    for category in filterclist:
+        meallist = MealCategory.objects.filter(c=category)
+
+    for meal in meallist:
+        print(meal.meal)
