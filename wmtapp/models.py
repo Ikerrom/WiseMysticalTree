@@ -33,7 +33,7 @@ class MealCategory(models.Model):
     meal = models.ForeignKey(Meal,on_delete=models.PROTECT)
     c = models.ForeignKey(Category,on_delete=models.PROTECT)
     def __str__(self):
-        return u'%s'%self.c
+        return u'%s'%self.meal
 
 class User(models.Model):
     uid = models.ForeignKey(djangouser,on_delete=models.PROTECT, null = True)
