@@ -91,18 +91,54 @@ def filterquestion(request):
 @csrf_exempt
 def filtermeal(request):
     preferencesstr = request.POST.get('preferences')
+    cgfilterstr = request.POST.get('categorygroups')
+
     preferenceslist = json.loads(preferencesstr)
-    filterclist = []
+    cgfilterlist = json.loads(cgfilterstr)
+
+    preferenceclist = []
+    intolerancecstrlist =[]
+    for intolerance in Category.objects.all():
+        intolerancecstrlist.append(intolerance.cname)
+
     meallist = []
 
     for preference in preferenceslist:
         preferenceobj = CategoryGroup.objects.get(cgname = preference)
         preferencecategorylist = CategoryGroupCategory.objects.filter(cg=preferenceobj)
         for preferencecategory in preferencecategorylist:
-            filterclist.append(preferencecategory.c)
+            preferenceclist.append(preferencecategory.c)
 
-    for category in filterclist:
-        meallist = MealCategory.objects.filter(c=category)
+    for cg in cgfilterlist:
+        cgobj = CategoryGroup.objects.get(cgname=cg)
+        cgcaregorylist = CategoryGroupCategory.objects.filter(cg=cgobj)
+        for cgcaregory in cgcaregorylist:
+            intolerancecstrlist.remove(cgcaregory.c.cname)
+
+    for category in preferenceclist:
+        meallist = list(MealCategory.objects.filter(c=category))
+
+    #Bubble sort the filteredquestions by priority
+    swapped = False
+    for i in range(len(meallist)-1):
+        for j in range(0,len(meallist)-i-1):
+            meal1clist = list(MealCategory.objects.filter(meal=meallist[j].meal));
+            meal2clist = list(MealCategory.objects.filter(meal=meallist[j + 1].meal));
+            if len(meal1clist) > len(meal2clist):
+                swapped = True
+                meallist[j], meallist[j + 1] = meallist[j + 1], meallist[j]
+        if not swapped:
+            break;
+
+    for categoryname in intolerancecstrlist:
+        categoryobj = Category.objects.get(cname = categoryname)
+        for tmpmeal in list(MealCategory.objects.filter(c=categoryobj)):
+            already = False
+            for meal in meallist:
+                if meal.meal.mealname == tmpmeal.meal.mealname:
+                    already = True
+            if not already:
+                meallist.append(tmpmeal)
 
     for meal in meallist:
         print(meal.meal)

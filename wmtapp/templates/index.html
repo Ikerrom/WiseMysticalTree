@@ -132,6 +132,7 @@
 
       $("#showmeal").click(function () {
         let json = {
+          categorygroups: JSON.stringify(categorygroups),
           preferences: JSON.stringify(preferences),
         };
         let csrftoken = "{{csrf_token}}";
