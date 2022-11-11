@@ -9,7 +9,9 @@ urlpatterns = [
     
     
     path('menu/', views.menu, name='menu'),
-    path('menu/addtocarrito/', views.addtocarrito, name='addtocarrito'),
+    
+    path('addmeal/<int:id>', views.addmeal, name='addmeal'),
+    path('addtocarrito/', views.addtocarrito, name='addtocarrito'),
     
     path('login/', views.login, name='login'),
     
