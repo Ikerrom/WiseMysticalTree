@@ -20,7 +20,7 @@
         <table border="1">
           {% for x in meal %}
           <tr>
-            <td>{{ x.mealname }}</td>
+            <td >{{ x.mealname }}</td>
             <td>{{ x.mealdesc }}</td>
             <td><img style="width: 10vh" src="{{ x.mealphoto }}" /></td>
             <td>
@@ -33,7 +33,7 @@
             <td>{{ x.price }}</td>
             <td>{{ x.discount }}</td>
             <td><input type="number" id="quantity" name="quantity"min="0" max="99"></td>
-            <td><input type="submit" value="Submit"></td>
+            <td><a href="/addmeal/{{ x.id }}">Add to cart</a></td>
           </tr>
           {% endfor %}
         </table>
