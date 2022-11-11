@@ -43,17 +43,24 @@ def menu(request):
     }
     return HttpResponse(template.render(context, request))
 
-#@csrf_exempt
-#def addtocarrito(request):
-#    mealname = request.POST['name']
-#    desc = request.POST['desc']
-#    price = request.POST['price']
-#    photo = request.POST['photo']
-#    sukaldariid = request.POST['sukaldari']
-#    sukaldariobj = Sukaldari.objects.get(id=sukaldariid)
-#    platera = Platera(name = name, desc = desc, price= price, photo = photo, sukaldari = sukaldariobj)
-#    platera.save()
-#    return HttpResponseRedirect(reverse('platerak',kwargs={'price': 0}))   
+@csrf_exempt
+def mealtobatch(request):
+    meal = request.POST['meal']
+    quantity = request.POST['quantity']
+    mealobj = Meal.objects.get(id=meal)
+    batch = Batch(meal = mealobj,quantity = quantity)
+    batch.save()
+    return HttpResponseRedirect(reverse('menu'))
+
+@csrf_exempt
+def addtocarrito(request):
+    user = request.POST['user']
+    batch = request.POST['batch']
+    userobj = User.objects.get(id=user)
+    batchobj = Batch.objects.get(id=batch)
+    karritoa = UserBatchCart(user = userobj,batch = batchobj)
+    karritoa.save()
+    return HttpResponseRedirect(reverse('menu'))   
 
 @csrf_exempt
 def filterquestion(request):

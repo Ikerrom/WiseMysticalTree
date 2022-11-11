@@ -40,18 +40,23 @@ class User(models.Model):
     userphoto = models.CharField(max_length=255, null = True)
     def __str__(self):
         return u'%s'%self.uid
-
-class UserMealCart(models.Model):
-    user = models.ForeignKey(User,on_delete=models.PROTECT)
+class Batch(models.Model):
     meal = models.ForeignKey(Meal,on_delete=models.PROTECT)
+    quantity = models.FloatField()
     def __str__(self):
         return u'%s'%self.meal
 
-class UserMealHistory(models.Model):
+class UserBatchCart(models.Model):
     user = models.ForeignKey(User,on_delete=models.PROTECT)
-    meal = models.ForeignKey(Meal,on_delete=models.PROTECT)
+    batch = models.ForeignKey(Batch,on_delete=models.PROTECT)
     def __str__(self):
-        return u'%s'%self.meal
+        return u'%s'%self.batch
+
+class UserBatchHistory(models.Model):
+    user = models.ForeignKey(User,on_delete=models.PROTECT)
+    batch = models.ForeignKey(Batch,on_delete=models.PROTECT)
+    def __str__(self):
+        return u'%s'%self.batch
 
 class Question(models.Model):
     question = models.TextField()
