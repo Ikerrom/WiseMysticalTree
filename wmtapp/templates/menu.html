@@ -32,6 +32,8 @@
             </td>
             <td>{{ x.price }}</td>
             <td>{{ x.discount }}</td>
+            <td><input type="number" id="quantity" name="quantity"min="0" max="99"></td>
+            <td><input type="submit" value="Submit"></td>
           </tr>
           {% endfor %}
         </table>

@@ -9,7 +9,7 @@ urlpatterns = [
     
     
     path('menu/', views.menu, name='menu'),
-    #path('addtocarrito/', views.addtocarrito, name='addtocarrito'),
+    path('/menu/addtocarrito/', views.addtocarrito, name='addtocarrito'),
     
     path('login/', views.login, name='login'),
     
