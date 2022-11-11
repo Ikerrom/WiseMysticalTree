@@ -143,7 +143,16 @@
           data: json,
           dataType: 'json',
           success: function (data) {
-
+            let lerroa ="";
+            for (let i = 0; i < data.length; i++) {
+              for (let k = 0; k < data[i].length; k++) {
+                for (let j = 0; j < data[i][k].length; j++) {
+                    lerroa += data[i][k][j] + " ";;
+                }
+              }
+              lerroa += "<br/>";
+            }
+            $('#question').html(lerroa)
           }, error: function (e) {
             alert(e);
           }

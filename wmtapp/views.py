@@ -6,6 +6,7 @@ from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
 import json
+import random
 
 from django.contrib.auth.models import User as UserDj
 from django.shortcuts import get_object_or_404
@@ -20,8 +21,6 @@ def index(request):
     
     user = UserDj.objects.get(id = request.user.id)
     return render(request, 'index.html', {'user': user})
-    
-
 
 def login(request):
     template = loader.get_template('login.html')
@@ -102,7 +101,7 @@ def filterquestion(request):
                 swapped = True
                 filteredquestions[j], filteredquestions[j + 1] = filteredquestions[j + 1], filteredquestions[j]
         if not swapped:
-            break;
+            break
 
     if int(number) < len(filteredquestions):
         #Send back the data to the ajax
@@ -116,16 +115,15 @@ def filterquestion(request):
 def filtermeal(request):
     preferencesstr = request.POST.get('preferences')
     cgfilterstr = request.POST.get('categorygroups')
-
     preferenceslist = json.loads(preferencesstr)
     cgfilterlist = json.loads(cgfilterstr)
 
     preferenceclist = []
-    intolerancecstrlist =[]
-    for intolerance in Category.objects.all():
-        intolerancecstrlist.append(intolerance.cname)
-
+    cgfilterc =[]
+    intoleranceclist = []
     meallist = []
+    perfectmatch = []
+    notperfecto = []
 
     for preference in preferenceslist:
         preferenceobj = CategoryGroup.objects.get(cgname = preference)
@@ -137,32 +135,88 @@ def filtermeal(request):
         cgobj = CategoryGroup.objects.get(cgname=cg)
         cgcaregorylist = CategoryGroupCategory.objects.filter(cg=cgobj)
         for cgcaregory in cgcaregorylist:
-            intolerancecstrlist.remove(cgcaregory.c.cname)
+            cgfilterc.append(cgcaregory.c)
 
-    for category in preferenceclist:
-        meallist = list(MealCategory.objects.filter(c=category))
-
-    #Bubble sort the filteredquestions by priority
-    swapped = False
-    for i in range(len(meallist)-1):
-        for j in range(0,len(meallist)-i-1):
-            meal1clist = list(MealCategory.objects.filter(meal=meallist[j].meal));
-            meal2clist = list(MealCategory.objects.filter(meal=meallist[j + 1].meal));
-            if len(meal1clist) > len(meal2clist):
-                swapped = True
-                meallist[j], meallist[j + 1] = meallist[j + 1], meallist[j]
-        if not swapped:
-            break;
-
-    for categoryname in intolerancecstrlist:
-        categoryobj = Category.objects.get(cname = categoryname)
-        for tmpmeal in list(MealCategory.objects.filter(c=categoryobj)):
+    for category in cgfilterc:
+        already1 = False
+        for preference in preferenceclist:
+            if category.cname == preference.cname:
+                already1 = True
+        if not already1:
             already = False
-            for meal in meallist:
-                if meal.meal.mealname == tmpmeal.meal.mealname:
+            for intolerance in intoleranceclist:
+                if category.cname == intolerance.cname:
                     already = True
             if not already:
-                meallist.append(tmpmeal)
+                intoleranceclist.append(category)
 
-    for meal in meallist:
-        print(meal.meal)
+    allmeals = Meal.objects.all()
+    for meal in allmeals:
+        allmatch = True
+        mealcategorymeals = list(MealCategory.objects.filter(meal = meal))
+        for mealc in mealcategorymeals:
+            isin = False
+            for preference in preferenceclist:
+                if mealc.c.cname == preference.cname:
+                    isin = True
+            if not isin:
+                allmatch = False
+        if allmatch:
+            isthere = False
+            for mealc in mealcategorymeals:
+                for intolerance in intoleranceclist:
+                    if intolerance.cname == mealc.c.cname:
+                        isthere = True
+            if not isthere:
+                perfectmatch.append(mealc)
+        if not allmatch:
+            isthere = False
+            for mealc in mealcategorymeals:
+                for intolerance in intoleranceclist:
+                    if intolerance.cname == mealc.c.cname:
+                        isthere = True
+            if not isthere:
+                notperfecto.append(mealc)
+
+    swapped = False
+    for i in range(len(notperfecto)-1):
+        for j in range(0,len(notperfecto)-i-1):
+            notperfecto1 = list(MealCategory.objects.filter(meal=notperfecto[j].meal));
+            notperfecto2 = list(MealCategory.objects.filter(meal=notperfecto[j + 1].meal));
+            if len(notperfecto1) > len(notperfecto2):
+                swapped = True
+                notperfecto[j], notperfecto[j + 1] = notperfecto[j + 1], notperfecto[j]
+        if not swapped:
+            break
+    
+    if len(perfectmatch) > 0:
+        index = random.randrange(0, len(perfectmatch)-1)
+        meallist.append(perfectmatch[index])
+        perfectmatch.pop(index)
+
+    for obj in perfectmatch:
+        meallist.append(obj)
+    for obj in notperfecto:
+        meallist.append(obj)
+
+    jsonmealclist =[]
+    for mealc in meallist:
+        jsonmealist =[]
+        meal =[]
+        meal.append(mealc.meal.mealname)
+        meal.append(mealc.meal.mealdesc)
+        meal.append(mealc.meal.mealphoto)
+        meal.append(str(mealc.meal.price))
+        meal.append(str(mealc.meal.discount))
+
+        jsonmealist.append(meal)
+
+        mealcategories =MealCategory.objects.filter(meal=mealc.meal)
+        for mealcategory in mealcategories: 
+            c =[]
+            c.append(mealcategory.c.cname)
+            c.append(mealcategory.c.cphoto)
+            jsonmealist.append(c)
+        jsonmealclist.append(jsonmealist)
+
+    return JsonResponse(jsonmealclist,safe=False)
