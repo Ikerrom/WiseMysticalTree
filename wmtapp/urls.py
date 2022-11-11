@@ -7,7 +7,6 @@ urlpatterns = [
     path('filterquestion/', views.filterquestion, name='filterquestion'),
     path('filtermeal/', views.filtermeal, name='filtermeal'),
     
-    
     path('menu/', views.menu, name='menu'),
     
     path('addmeal/<int:id>', views.addmeal, name='addmeal'),
