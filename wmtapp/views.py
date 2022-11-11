@@ -95,7 +95,7 @@ def filterquestion(request):
                 swapped = True
                 filteredquestions[j], filteredquestions[j + 1] = filteredquestions[j + 1], filteredquestions[j]
         if not swapped:
-            break;
+            break
 
     if int(number) < len(filteredquestions):
         #Send back the data to the ajax
@@ -109,14 +109,11 @@ def filterquestion(request):
 def filtermeal(request):
     preferencesstr = request.POST.get('preferences')
     cgfilterstr = request.POST.get('categorygroups')
-
     preferenceslist = json.loads(preferencesstr)
     cgfilterlist = json.loads(cgfilterstr)
 
     preferenceclist = []
-    intolerancecstrlist =[]
-    for intolerance in Category.objects.all():
-        intolerancecstrlist.append(intolerance.cname)
+    intoleranceclist =[]
 
     meallist = []
 
@@ -130,12 +127,11 @@ def filtermeal(request):
         cgobj = CategoryGroup.objects.get(cgname=cg)
         cgcaregorylist = CategoryGroupCategory.objects.filter(cg=cgobj)
         for cgcaregory in cgcaregorylist:
-            intolerancecstrlist.remove(cgcaregory.c.cname)
+            intoleranceclist.append(cgcaregory.c)
 
     for category in preferenceclist:
         meallist = list(MealCategory.objects.filter(c=category))
 
-    #Bubble sort the filteredquestions by priority
     swapped = False
     for i in range(len(meallist)-1):
         for j in range(0,len(meallist)-i-1):
@@ -145,17 +141,33 @@ def filtermeal(request):
                 swapped = True
                 meallist[j], meallist[j + 1] = meallist[j + 1], meallist[j]
         if not swapped:
-            break;
+            break
 
-    for categoryname in intolerancecstrlist:
-        categoryobj = Category.objects.get(cname = categoryname)
-        for tmpmeal in list(MealCategory.objects.filter(c=categoryobj)):
-            already = False
-            for meal in meallist:
-                if meal.meal.mealname == tmpmeal.meal.mealname:
-                    already = True
-            if not already:
-                meallist.append(tmpmeal)
+    notallowed = []
+    allmealsc = MealCategory.objects.all()
+    for mealc in allmealsc:
+        for category in intoleranceclist:
+            if mealc.c.cname == category.cname:
+                already = False;
+                for meal in notallowed:
+                    if mealc.meal.mealname == meal.meal.mealname:
+                        already = True
+                if not already:
+                    notallowed.append(mealc)
 
-    for meal in meallist:
-        print(meal.meal)
+
+    allmeals = MealCategory.objects.all()     
+    for meal in allmeals:
+        already = False
+        for notallow in notallowed:
+            if meal.meal.mealname == notallow.meal.mealname:
+                already = True;
+        if not already:
+            for meall in meallist:
+                already2 = False
+                if meall.meal.mealname == meal.meal.mealname:
+                    already2 = True
+            if not already2:
+                meallist.append(meal) 
+    
+    print(meallist)
