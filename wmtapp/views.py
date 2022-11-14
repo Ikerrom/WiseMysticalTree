@@ -63,10 +63,13 @@ def addtocarrito(request):
 
 @csrf_exempt
 def addmeal(request,id):
+    meal = Meal.objects.get(id=id)
     template = loader.get_template('addmeal.html')
     context = {
+        'meal': meal,
     }
     return HttpResponse(template.render(context, request))
+
 @csrf_exempt
 def filterquestion(request):
     cgfilterstr = request.POST.get('categorygroups')
