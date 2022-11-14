@@ -12,4 +12,6 @@ admin.site.register(UserBatchHistory)
 admin.site.register(Question)
 admin.site.register(QuestionCategory)
 admin.site.register(QuestionCategoryGroup)
+admin.site.register(Batch)
+
 # Register your models here.

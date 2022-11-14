@@ -4,15 +4,31 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   </head>
   <body>
-    <div style="display: flex;flex-direction: column;align-items: center;width: 100%;">
-      <div style='border: 2px solid black;border-radius:25px; width:20%;margin-top:1%; display:flex; flex-direction:column; align-items:center;'>
+    <form action="../mealtobatch/" method="post">
+      <div style="display: flex;flex-direction: column;align-items: center;width: 100%; justify-content: center; height: 98vh;">
+            <div style='border: 2px solid black;border-radius:25px; width:20%;margin-top:1%; display:flex; flex-direction:column; align-items:center;'>
+              <p style='font-size:90%;'>{{meal.mealname}}</p>
+              <img style='width:80%;' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjzx1sSURg8Eiw-ViuHbghhZ6n8i3Yma_Svy6kS9Z81o04tGxQ4Jq5YDvj4xEEOLs6INQ&usqp=CAU'>
+              <div style='display:flex; flex-direction:row;'>
+                {% for y in mealcategories %}
+                    {% if meal.id == y.meal.id %}
+                      <img style='width:100%;' src="{{ y.c.cphoto }}"> 
+                    {% endif %}
+                {% endfor %}
+              </div>
+              <div style='width:70%; text-align: center;'>
+                <p style='font-size:100%;'>{{meal.mealdesc}}</p>
+              </div>
+              <p>QUANTITY</p>
         
+                <input value="{{ meal.id }}" style="display: none;" name="mealid" >
+                <input value="{{ where }}" style="display: none;" name="where" >
+                <input type="number" id="quantity" name="quantity" min="0" max="99" value="1" name="quantity"> 
+              
+            </div>
+        
+        <button type="submit">Add to cart</button>
+      </form>
       </div>
-
-      
-      <input type="number" id="quantity" name="quantity"min="0" max="99" value="{{platera.name}}">
-
-      </div>
-    </div>
   </body>
 </html>

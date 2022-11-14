@@ -1,3 +1,4 @@
+import time
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -43,30 +44,35 @@ def menu(request):
     return HttpResponse(template.render(context, request))
 
 @csrf_exempt
+def addtocart(request,batch):
+    user = request.user
+    userobj = User.objects.get(uid=user.id)
+    date = time.strftime("%Y,%m,%d,%H,%M,%S")
+    cart = UserBatchCart(user = userobj,batch = batch,date = date)
+    cart.save()
+    
+
+@csrf_exempt
 def mealtobatch(request):
-    meal = request.POST['meal']
+    mealid = request.POST['mealid']
     quantity = request.POST['quantity']
-    mealobj = Meal.objects.get(id=meal)
+    where = request.POST['where']
+    mealobj = Meal.objects.get(id=mealid)
     batch = Batch(meal = mealobj,quantity = quantity)
     batch.save()
-    return HttpResponseRedirect(reverse('menu'))
+    addtocart(request,batch)
+    return HttpResponseRedirect(reverse(where))
+
 
 @csrf_exempt
-def addtocarrito(request):
-    user = request.POST['user']
-    batch = request.POST['batch']
-    userobj = User.objects.get(id=user)
-    batchobj = Batch.objects.get(id=batch)
-    karritoa = UserBatchCart(user = userobj,batch = batchobj)
-    karritoa.save()
-    return HttpResponseRedirect(reverse('menu'))   
-
-@csrf_exempt
-def addmeal(request,id):
+def addmeal(request,id,where):
     meal = Meal.objects.get(id=id)
+    mealcategories = MealCategory.objects.filter(meal = meal)
     template = loader.get_template('addmeal.html')
     context = {
         'meal': meal,
+        'mealcategories': mealcategories,
+        'where' : where,
     }
     return HttpResponse(template.render(context, request))
 
