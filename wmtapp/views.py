@@ -38,12 +38,25 @@ def menu(request):
     return HttpResponse(template.render(context, request))
 
 def cart(request):
-    batches = Batch.objects.all()
     user = request.user
+    userobj = User.objects.get(uid = user.id)
+    batches = UserBatchCart.objects.filter(user=userobj)
     template = loader.get_template('cart.html')
     context = {
     'batches': batches,
     'user' : user,
+    }
+    return HttpResponse(template.render(context, request))
+
+def history(request):
+    carts = UserBatchCart.objects.all()
+    usercarts = []
+    for cart in carts:
+        if cart.batch.user == request.user:
+            usercarts.append(cart)
+    template = loader.get_template('history.html')
+    context = {
+    'usercarts' : usercarts,
     }
     return HttpResponse(template.render(context, request))
 
