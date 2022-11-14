@@ -214,7 +214,7 @@ def filtermeal(request):
         meal.append(mealc.meal.mealphoto)
         meal.append(str(mealc.meal.price))
         meal.append(str(mealc.meal.discount))
-
+        meal.append(str(mealc.meal.id))
         jsonmealist.append(meal)
 
         mealcategories =MealCategory.objects.filter(meal=mealc.meal)

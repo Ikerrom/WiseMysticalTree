@@ -20,13 +20,15 @@
     <img
       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjzx1sSURg8Eiw-ViuHbghhZ6n8i3Yma_Svy6kS9Z81o04tGxQ4Jq5YDvj4xEEOLs6INQ&usqp=CAU">
     <br>
-    <div id="questions"
-      style="border: 2px solid black; display: flex; flex-direction: column; align-items: center; width:60%;">
+    <a href=''>Try Again</a>
+    <div id="questions"style="border: 2px solid black; display: flex; flex-direction: column; align-items: center; width:60%;">
       <p id="question">The most mystical and wise tree will choose the food for you</p>
       <button id="start" value="">Start</button>
       <button id="yes" value="" style="display:none;">Yes</button>
       <button id="no" value="" style="display:none;">No</button>
       <button id="showmeal" value="" style="display:none;">Show</button>
+    </div>
+    <div id="meals"style="display: flex; flex-direction: row; justify-content: space-evenly;width:100%;flex-wrap: wrap; margin-top:1%; width:80%;">
     </div>
   </div>
 
@@ -144,15 +146,24 @@
           dataType: 'json',
           success: function (data) {
             let lerroa ="";
+            
             for (let i = 0; i < data.length; i++) {
-              for (let k = 0; k < data[i].length; k++) {
-                for (let j = 0; j < data[i][k].length; j++) {
-                    lerroa += data[i][k][j] + " ";;
-                }
+              lerroa += "<div style='border: 2px solid black;border-radius:25px; width:20%;margin-top:1%; display:flex; flex-direction:column; align-items:center;'>"
+              lerroa += "<p style='font-size:90%;'>"+data[i][0][0]+"</p>";
+              lerroa += "<img style='width:80%;' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjzx1sSURg8Eiw-ViuHbghhZ6n8i3Yma_Svy6kS9Z81o04tGxQ4Jq5YDvj4xEEOLs6INQ&usqp=CAU'>";
+              lerroa += "<div style='display:flex; flex-direction:row;'>"
+              for (let k = 1; k < data[i].length; k++) {
+                lerroa += "<img style='width:100%;' src='" + data[i][k][1] + "'>";
               }
-              lerroa += "<br/>";
+              lerroa += "</div>"
+              lerroa += "<div style='width:70%; text-align: center;'>"
+              lerroa += "<p style='font-size:100%;'>"+data[i][0][1]+"</p>";
+              lerroa += "</div>"
+              lerroa += "<a style='font-size:90%;' href='addmeal/"+data[i][0][5]+"' target='_blank'> ADD TO CART </a>";
+              lerroa += "</div>"
             }
-            $('#question').html(lerroa)
+            $('#meals').html(lerroa)
+            $("#showmeal").hide()
           }, error: function (e) {
             alert(e);
           }
