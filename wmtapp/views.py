@@ -8,11 +8,9 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import *
 import json
 import random
-
 from django.contrib.auth.models import User as UserDj
 from django.shortcuts import get_object_or_404
 
-##
 def index(request):
     if request.user.id == None:
         template = loader.get_template('index.html')
@@ -28,16 +26,14 @@ def login(request):
 def logout(request):
     template = loader.get_template('login.html')
     return HttpResponse(template.render())
-##
-
 
 def menu(request):
-    meal = Meal.objects.all()
-    mealcategory = MealCategory.objects.all()
+    meals = Meal.objects.all()
+    mealcategories = MealCategory.objects.all()
     template = loader.get_template('menu.html')
     context = {
-    'meal': meal,
-    'mealcategory' : mealcategory,
+    'meals': meals,
+    'mealcategories' : mealcategories,
     }
     return HttpResponse(template.render(context, request))
 
@@ -58,7 +54,6 @@ def addtocart(request,batch):
     date = time.strftime("%Y,%m,%d,%H,%M,%S")
     cart = UserBatchCart(user = userobj,batch = batch,date = date)
     cart.save()
-    
 
 @csrf_exempt
 def mealtobatch(request):
@@ -73,7 +68,6 @@ def mealtobatch(request):
     batch.save()
     addtocart(request,batch)
     return HttpResponseRedirect(reverse(where))
-
 
 @csrf_exempt
 def addmeal(request,id,where):
@@ -135,7 +129,6 @@ def filterquestion(request):
         return JsonResponse([question.question.question,question.cg.cgname,question.question.preference],safe=False)
     else:
         return JsonResponse(["","",False],safe=False)
-    
 
 @csrf_exempt
 def filtermeal(request):

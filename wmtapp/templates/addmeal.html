@@ -10,8 +10,8 @@
               <p style='font-size:90%;'>{{meal.mealname}}</p>
               <img style='width:80%;' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjzx1sSURg8Eiw-ViuHbghhZ6n8i3Yma_Svy6kS9Z81o04tGxQ4Jq5YDvj4xEEOLs6INQ&usqp=CAU'>
               <div style='display:flex; flex-direction:row;'>
-                {% for y in mealcategories %}
-                    {% if meal.id == y.meal.id %}
+                {% for mealcategorie in mealcategories %}
+                    {% if meal.id == y.mealcategorie.id %}
                       <img style='width:100%;' src="{{ y.c.cphoto }}"> 
                     {% endif %}
                 {% endfor %}

@@ -10,11 +10,11 @@
         </div>
 
         <div id="meals"style="display: flex; flex-direction: row; justify-content: space-evenly;width:100%;flex-wrap: wrap; margin-top:1%; width:80%;">
-          {% for x in batches %}
+          {% for batch in batches %}
           <div style='border: 2px solid black;border-radius:25px; width:20%;margin-top:1%; display:flex; flex-direction:column; align-items:center;'>
-            <p style='font-size:90%;'>{{x.meal.mealname}}</p>
-            <p style='font-size:90%;'>{{x.quantity}}</p>
-            <img src="{{x.meal.mealphoto}}">
+            <p style='font-size:90%;'>{{batch.meal.mealname}}</p>
+            <p style='font-size:90%;'>{{batch.quantity}}</p>
+            <img src="{{batch.meal.mealphoto}}">
           </div>
           {% endfor %}
         </div>

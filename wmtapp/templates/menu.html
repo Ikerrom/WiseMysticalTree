@@ -6,25 +6,24 @@
   <body>
     <div style="display: flex;flex-direction: column;align-items: center;width: 100%;">
         <div>
-          <h1>Carta</h1>
+          <h1>Menu</h1>
         </div>
-
         <div id="meals"style="display: flex; flex-direction: row; justify-content: space-evenly;width:100%;flex-wrap: wrap; margin-top:1%; width:80%;">
-          {% for x in meal %}
+          {% for meal in meals %}
           <div style='border: 2px solid black;border-radius:25px; width:20%;margin-top:1%; display:flex; flex-direction:column; align-items:center;'>
-            <p style='font-size:90%;'>{{x.mealname}}</p>
+            <p style='font-size:90%;'>{{meal.mealname}}</p>
             <img style='width:80%;' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjzx1sSURg8Eiw-ViuHbghhZ6n8i3Yma_Svy6kS9Z81o04tGxQ4Jq5YDvj4xEEOLs6INQ&usqp=CAU'>
             <div style='display:flex; flex-direction:row;'>
-              {% for y in mealcategory %}
-                  {% if x.id == y.meal.id %}
-                    <img style='width:100%;' src="{{ y.c.cphoto }}"> 
+              {% for mealcategory in mealcategories %}
+                  {% if meal.id == mealcategory.meal.id %}
+                    <img style='width:100%;' src="{{ mealcategory.c.cphoto }}"> 
                   {% endif %}
               {% endfor %}
             </div>
             <div style='width:70%; text-align: center;'>
-              <p style='font-size:100%;'>{{x.mealdesc}}</p>
+              <p style='font-size:100%;'>{{meal.mealdesc}}</p>
             </div>
-            <td><a href="/addmeal/{{ x.id }}menu">Add to cart</a></td>
+            <td><a href="/addmeal/{{ meal.id }}menu">Add to cart</a></td>
           </div>
           {% endfor %}
         </div>
