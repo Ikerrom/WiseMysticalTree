@@ -14,8 +14,6 @@ from django.shortcuts import get_object_or_404
 
 ##
 def index(request):
-    
-    
     if request.user.id == None:
         template = loader.get_template('index.html')
         return HttpResponse(template.render())
@@ -43,6 +41,16 @@ def menu(request):
     }
     return HttpResponse(template.render(context, request))
 
+def cart(request):
+    batches = Batch.objects.all()
+    user = request.user
+    template = loader.get_template('cart.html')
+    context = {
+    'batches': batches,
+    'user' : user,
+    }
+    return HttpResponse(template.render(context, request))
+
 @csrf_exempt
 def addtocart(request,batch):
     user = request.user
@@ -54,6 +62,9 @@ def addtocart(request,batch):
 
 @csrf_exempt
 def mealtobatch(request):
+    if request.user.id == None:
+        return HttpResponseRedirect(reverse("login"))
+     
     mealid = request.POST['mealid']
     quantity = request.POST['quantity']
     where = request.POST['where']

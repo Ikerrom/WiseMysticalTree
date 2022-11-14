@@ -8,7 +8,8 @@ urlpatterns = [
     path('filtermeal/', views.filtermeal, name='filtermeal'),
     
     path('menu/', views.menu, name='menu'),
-    
+    path('cart/', views.cart, name='cart'),
+
     path('addmeal/<int:id><where>', views.addmeal, name='addmeal'),
     path('mealtobatch/', views.mealtobatch, name='mealtobatch'),
     
