@@ -49,12 +49,11 @@ def cart(request):
     return HttpResponse(template.render(context, request))
 
 def history(request):
-    carts = UserBatchCart.objects.all()
-    usercarts = []
-    for cart in carts:
-        if cart.batch.user == request.user:
-            usercarts.append(cart)
+    user = request.user
+    userobj = User.objects.get(uid=user.id)
+    usercarts = UserBatchHistory.objects.filter(user=userobj)
     template = loader.get_template('history.html')
+    print(usercarts)
     context = {
     'usercarts' : usercarts,
     }
@@ -64,9 +63,20 @@ def history(request):
 def addtocart(request,batch):
     user = request.user
     userobj = User.objects.get(uid=user.id)
-    date = time.strftime("%Y,%m,%d,%H,%M,%S")
-    cart = UserBatchCart(user = userobj,batch = batch,date = date)
+    cart = UserBatchCart(user = userobj,batch = batch)
     cart.save()
+
+@csrf_exempt
+def carttohistory(request):
+    user = request.user
+    userobj = User.objects.get(uid=user.id)
+    userbatchcarts = UserBatchCart.objects.filter(user=userobj)
+    date = time.strftime("%Y,%m,%d,%H,%M,%S")
+    for cart in userbatchcarts:
+            history = UserBatchHistory(user = cart.user,batch = cart.batch,date = date)
+            history.save()
+    UserBatchCart.objects.filter(user=userobj).delete()
+    return HttpResponseRedirect(reverse('index'))
 
 @csrf_exempt
 def mealtobatch(request):

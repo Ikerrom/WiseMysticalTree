@@ -13,6 +13,7 @@ urlpatterns = [
 
     path('addmeal/<int:id><where>', views.addmeal, name='addmeal'),
     path('mealtobatch/', views.mealtobatch, name='mealtobatch'),
+    path('carttohistory/', views.carttohistory, name='carttohistory'),
     
     path('login/', views.login, name='login'),
     

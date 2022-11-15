@@ -50,7 +50,6 @@ class Batch(models.Model):
 class UserBatchCart(models.Model):
     user = models.ForeignKey(User,on_delete=models.PROTECT)
     batch = models.ForeignKey(Batch,on_delete=models.PROTECT)
-    date = models.CharField(max_length=255,null=True)
     def __str__(self):
         return u'%s'%self.batch
 
