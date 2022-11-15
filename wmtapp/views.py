@@ -51,11 +51,17 @@ def cart(request):
 def history(request):
     user = request.user
     userobj = User.objects.get(uid=user.id)
-    usercarts = UserBatchHistory.objects.filter(user=userobj)
+    usercarts = list(UserBatchHistory.objects.filter(user=userobj))
     template = loader.get_template('history.html')
-    print(usercarts)
+    grouped = []
+    tmp =""
+    for usercart in usercarts:
+        if usercart.date != tmp:
+            grouped.append(UserBatchHistory.objects.filter(date=usercart.date))
+            tmp = usercart.date
+    print(grouped)
     context = {
-    'usercarts' : usercarts,
+    'grouped' : grouped,
     }
     return HttpResponse(template.render(context, request))
 
@@ -71,7 +77,7 @@ def carttohistory(request):
     user = request.user
     userobj = User.objects.get(uid=user.id)
     userbatchcarts = UserBatchCart.objects.filter(user=userobj)
-    date = time.strftime("%Y,%m,%d,%H,%M,%S")
+    date = time.strftime("%Y-%m-%d %H:%M")
     for cart in userbatchcarts:
             history = UserBatchHistory(user = cart.user,batch = cart.batch,date = date)
             history.save()

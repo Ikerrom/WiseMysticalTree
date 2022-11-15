@@ -15,12 +15,24 @@
           <div style='border: 2px solid black;border-radius:25px; width:20%;margin-top:1%; display:flex; flex-direction:column; align-items:center;'>
             <p style='font-size:90%;'>{{batch.batch.meal.mealname}}</p>
             <p style='font-size:90%;'>{{batch.batch.quantity}}</p>
+            <p id="batcht" style='font-size:90%;'>{%widthratio batch.batch.meal.price 1 batch.batch.quantity %}</p>
             <img src="{{batch.batch.meal.mealphoto}}">
           </div>
           {% endfor %}
         </div>
+        <p id="total"></p> 
+        <button type="submit">Buy</button>
       </div>
-      <button type="submit">Buy</button>
+
     </form>
+    <script>
+      var total =0;
+      $(document).ready(function() {
+          $("#batcht").each(function(i) {
+            total +=parseInt($(this).html());
+          });
+          alert(total)
+      });
+    </script>
   </body>
 </html>

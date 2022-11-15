@@ -150,7 +150,7 @@
             for (let i = 0; i < data.length; i++) {
               lerroa += "<div style='border: 2px solid black;border-radius:25px; width:20%;margin-top:1%; display:flex; flex-direction:column; align-items:center;'>"
               lerroa += "<p style='font-size:90%;'>"+data[i][0][0]+"</p>";
-              lerroa += "<img style='width:80%;' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjzx1sSURg8Eiw-ViuHbghhZ6n8i3Yma_Svy6kS9Z81o04tGxQ4Jq5YDvj4xEEOLs6INQ&usqp=CAU'>";
+              lerroa += "<img style='width:80%;' src='"+data[i][0][2]+"'>";
               lerroa += "<div style='display:flex; flex-direction:row;'>"
               for (let k = 1; k < data[i].length; k++) {
                 lerroa += "<img style='width:100%;' src='" + data[i][k][1] + "'>";
@@ -158,6 +158,7 @@
               lerroa += "</div>"
               lerroa += "<div style='width:70%; text-align: center;'>"
               lerroa += "<p style='font-size:100%;'>"+data[i][0][1]+"</p>";
+              lerroa += "<p style='font-size:100%;'>"+data[i][0][3]+"€</p>";
               lerroa += "</div>"
               lerroa += "<a style='font-size:90%;' href='addmeal/"+data[i][0][5]+"index' > ADD TO CART </a>";
               lerroa += "</div>"
