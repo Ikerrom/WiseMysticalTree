@@ -1,5 +1,5 @@
 import time
-from django.shortcuts import render
+from django.shortcuts import render, redirect   
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.forms.models import model_to_dict
@@ -10,6 +10,8 @@ import json
 import random
 from django.contrib.auth.models import User as UserDj
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 
 def index(request):
     if request.user.id == None:
@@ -31,6 +33,20 @@ def login(request):
 def logout(request):
     template = loader.get_template('login.html')
     return HttpResponse(template.render())
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, f'Your account has been created. You can log in now!')    
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+
+    context = {'form': form}
+    return render(request, 'registration/register.html', context)
 
 def menu(request):
     meals = Meal.objects.all()
