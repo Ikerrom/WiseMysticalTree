@@ -48,6 +48,10 @@ def cart(request):
     }
     return HttpResponse(template.render(context, request))
 
+def deletebatch(request,id):
+    UserBatchCart.objects.get(id=id).delete()
+    return HttpResponseRedirect(reverse('cart'))
+
 def history(request):
     user = request.user
     userobj = User.objects.get(uid=user.id)
@@ -59,7 +63,7 @@ def history(request):
         if usercart.date != tmp:
             grouped.append(UserBatchHistory.objects.filter(date=usercart.date))
             tmp = usercart.date
-    print(grouped)
+    grouped.reverse()
     context = {
     'grouped' : grouped,
     }

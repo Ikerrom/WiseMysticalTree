@@ -9,29 +9,28 @@
         <div>
           <h1>{{ user }}</h1>
         </div>
-
         <div id="meals"style="display: flex; flex-direction: row; justify-content: space-evenly;width:100%;flex-wrap: wrap; margin-top:1%; width:80%;">
           {% for batch in batches %}
           <div style='border: 2px solid black;border-radius:25px; width:20%;margin-top:1%; display:flex; flex-direction:column; align-items:center;'>
             <p style='font-size:90%;'>{{batch.batch.meal.mealname}}</p>
             <p style='font-size:90%;'>{{batch.batch.quantity}}</p>
-            <p id="batcht" style='font-size:90%;'>{%widthratio batch.batch.meal.price 1 batch.batch.quantity %}</p>
+            <total style='font-size:90%;'>{%widthratio batch.batch.meal.price 1 batch.batch.quantity %}€</total>
             <img src="{{batch.batch.meal.mealphoto}}">
+            <a href="../deletebatch/{{batch.id}}">Delete</a>
           </div>
           {% endfor %}
         </div>
         <p id="total"></p> 
         <button type="submit">Buy</button>
       </div>
-
     </form>
     <script>
       var total =0;
       $(document).ready(function() {
-          $("#batcht").each(function(i) {
-            total +=parseInt($(this).html());
+          $("total").each(function(i) {
+            total +=parseInt($(this).html().slice(0, -1));
           });
-          alert(total)
+          $("#total").html("Total: " + total + "€");
       });
     </script>
   </body>

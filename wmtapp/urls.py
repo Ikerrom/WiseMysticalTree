@@ -12,6 +12,7 @@ urlpatterns = [
     path('history/', views.history, name='history'),
 
     path('addmeal/<int:id><where>', views.addmeal, name='addmeal'),
+    path('deletebatch/<int:id>', views.deletebatch, name='deletebatch'),
     path('mealtobatch/', views.mealtobatch, name='mealtobatch'),
     path('carttohistory/', views.carttohistory, name='carttohistory'),
     
