@@ -4,7 +4,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   </head>
   <body>
-    <form action="../mealtobatch/" method="post">
+    <form action="../mealtobatch/{{ meal.id }}" method="post">
       <div style="display: flex;flex-direction: column;align-items: center;width: 100%; justify-content: center; height: 98vh;">
             <div style='border: 2px solid black;border-radius:25px; width:20%;margin-top:1%; display:flex; flex-direction:column; align-items:center;'>
               <p style='font-size:200%;'>{{meal.mealname}}</p>
@@ -20,18 +20,26 @@
                 <p style='font-size:100%;'>{{meal.mealdesc}}</p>
               </div>
                 <input value="{{ meal.id }}" style="display: none;" name="mealid" >
-                <input value="{{ where }}" style="display: none;" name="where" >
                 <label for="quantity">QUANTITY</label>
                 <input type="number" id="quantity" name="quantity" min="1" max="99" value="1" name="quantity"/>
                 <p id="total">{{meal.price}}€</p>
             </div>
         <br>
-        <button type="submit">Add to cart</button>
+        <button id="submit" type="submit">Add to cart</button>
       </form>
       </div>
       <script>
         $("#quantity").on("input", function() {
           $("#total").html($("#quantity").val()*"{{meal.price}}" + "€")
+        });
+
+        $("#submit").click(function() {
+          setTimeout(
+        function () {
+          if (confirm("Logged succesfully!")) {
+            close();
+          }
+        }, 20);
         });
       </script>
   </body>

@@ -1,24 +1,9 @@
-<html>
-
-<head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-</head>
-
-<body>
-  <ul class="sidebar-nav">
-    {% if user.is_authenticated %}
-    <li>User: {{ user.get_username }}</li>
-    <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
-    {% else %}
-    <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
-    {% endif %}
-  </ul>
-
+{% extends 'base.html' %}
+{% block content %}
 
   <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-    <h1>Main Page</h1>
-    <img
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjzx1sSURg8Eiw-ViuHbghhZ6n8i3Yma_Svy6kS9Z81o04tGxQ4Jq5YDvj4xEEOLs6INQ&usqp=CAU">
+    <br>
+    <img id="tree" src="../static/Images/WiseMysticalTreeClose.jpg">
     <br>
     <a href=''>Try Again</a>
     <div id="questions"style="border: 2px solid black; display: flex; flex-direction: column; align-items: center; width:60%;">
@@ -30,6 +15,7 @@
     </div>
     <div id="meals"style="display: flex; flex-direction: row; justify-content: space-evenly;width:100%;flex-wrap: wrap; margin-top:1%; width:80%;">
     </div>
+    <audio id="audio" src="../static/Sound/oof.mp3"></audio>
   </div>
 
   <script>
@@ -38,7 +24,27 @@
     var notimes = 0;
     var number = 0;
     var preference = false;
+
+    function setTalkingTree() {
+        var question = $("#question").html().split(" ");
+        for (let i = 0; i <question.length*2; i++) {
+          let interbal = Math.floor((Math.random() * 1500) + 1000);
+          setTimeout(
+            function () {
+              var audio = document.getElementById("audio");
+              audio.play();
+              if($("#tree").attr('src') == "../static/Images/WiseMysticalTreeClose.jpg"){
+                $("#tree").attr('src',"../static/Images/WiseMysticalTreeOpen.jpg") ;
+              }else{
+                $("#tree").attr('src', "../static/Images/WiseMysticalTreeClose.jpg");
+              }
+            }, interbal);
+        }
+        $("#question").attr('src', "../static/Images/WiseMysticalTreeClose.jpg");
+    }
+
     $(document).ready(function () {
+      setTalkingTree();
 
       $("#start").click(function () {
         $("#yes").show();
@@ -60,6 +66,7 @@
             let lerroa = data[0];
             $("#yes").val(data[1]);
             $('#question').html(lerroa);
+            setTalkingTree();
           }, error: function (e) {
             alert(e);
           }
@@ -71,7 +78,6 @@
         if (preference) {
           preferences.push($("#yes").val());
         }
-
         number = notimes;
         let json = {
           categorygroups: JSON.stringify(categorygroups),
@@ -95,6 +101,7 @@
               $("#no").hide();
               $("#showmeal").show();
             }
+            setTalkingTree();
           }, error: function (e) {
             alert(e);
           }
@@ -126,6 +133,7 @@
               $("#no").hide();
               $("#showmeal").show();
             }
+            setTalkingTree();
           }, error: function (e) {
             alert(e);
           }
@@ -160,7 +168,7 @@
               lerroa += "<p style='font-size:100%;'>"+data[i][0][1]+"</p>";
               lerroa += "<p style='font-size:100%;'>"+data[i][0][3]+"€</p>";
               lerroa += "</div>"
-              lerroa += "<a style='font-size:90%;' href='addmeal/"+data[i][0][5]+"index' > ADD TO CART </a>";
+              lerroa += "<a style='font-size:90%;' href='addmeal/"+data[i][0][5]+"'target='_blank' > ADD TO CART </a>";
               lerroa += "</div>"
             }
             $('#meals').html(lerroa)
@@ -170,9 +178,6 @@
           }
         })
       });
-
     });
   </script>
-</body>
-
-</html>
+{% endblock content %}

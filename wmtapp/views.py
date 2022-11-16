@@ -15,9 +15,14 @@ def index(request):
     if request.user.id == None:
         template = loader.get_template('index.html')
         return HttpResponse(template.render())
-    
+    template = loader.get_template('index.html')
     user = UserDj.objects.get(id = request.user.id)
-    return render(request, 'index.html', {'user': user})
+    usern = User.objects.get(uid=user.id)
+    context = {
+    'user': user,
+    'usern':usern
+    }
+    return HttpResponse(template.render(context, request))
 
 def login(request):
     template = loader.get_template('login.html')
@@ -38,6 +43,8 @@ def menu(request):
     return HttpResponse(template.render(context, request))
 
 def cart(request):
+    if str(request.user) == "AnonymousUser":
+        return HttpResponseRedirect(reverse("login"))
     user = request.user
     userobj = User.objects.get(uid = user.id)
     batches = UserBatchCart.objects.filter(user=userobj)
@@ -53,6 +60,8 @@ def deletebatch(request,id):
     return HttpResponseRedirect(reverse('cart'))
 
 def history(request):
+    if str(request.user) == "AnonymousUser":
+        return HttpResponseRedirect(reverse("login"))
     user = request.user
     userobj = User.objects.get(uid=user.id)
     usercarts = list(UserBatchHistory.objects.filter(user=userobj))
@@ -89,28 +98,25 @@ def carttohistory(request):
     return HttpResponseRedirect(reverse('index'))
 
 @csrf_exempt
-def mealtobatch(request):
-    if request.user.id == None:
-        return HttpResponseRedirect(reverse("login"))
-     
+def mealtobatch(request,id):
     mealid = request.POST['mealid']
     quantity = request.POST['quantity']
-    where = request.POST['where']
     mealobj = Meal.objects.get(id=mealid)
     batch = Batch(meal = mealobj,quantity = quantity)
     batch.save()
     addtocart(request,batch)
-    return HttpResponseRedirect(reverse(where))
+    return HttpResponseRedirect(reverse('addmeal',kwargs={'id':id}))
 
 @csrf_exempt
-def addmeal(request,id,where):
+def addmeal(request,id):
+    if str(request.user) == "AnonymousUser":
+        return HttpResponseRedirect(reverse("login"))
     meal = Meal.objects.get(id=id)
     mealcategories = MealCategory.objects.filter(meal = meal)
     template = loader.get_template('addmeal.html')
     context = {
         'meal': meal,
         'mealcategories': mealcategories,
-        'where' : where,
     }
     return HttpResponse(template.render(context, request))
 

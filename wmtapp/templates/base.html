@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="../static/Css/Base.css">
+    </head>
+</head>
+<body>
+    <div id="navdiv">
+        <div id="logodiv">
+            <p class="text" style="font-size:250%; text-decoration: underline">Wise Mystical Tree</p>
+        </div>
+
+        <div id="navlinksdiv">
+            <div id="navlinkdiv">
+                <a class="text" href="../">Home</a>
+            </div>
+            <div id="navlinkdiv">
+                <a class="text" href="/menu">Menu</a>
+            </div>
+            {% if user.is_authenticated %}
+            <div id="navlinkdiv">
+                <a class="text" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
+            </div>
+            {% else %}
+            <div id="navlinkdiv">
+                <a class="text" href="{% url 'login'%}?next={{request.path}}" target="_blank">Login</a>
+            </div>
+            {% endif %}
+        </div>
+
+        <div id="navuser">
+            <img id="usericon" src="{{usern.userphoto}}">
+        </div>
+    </div>
+    {% block content %}
+    {% endblock content %}
+    <div id="footerdiv">
+        <div id="phonediv">
+            <p class="text" style="font-size:120%;">696 696 420</p>
+        </div>
+        
+        <div id="copyright">
+            <p class="text" style="font-size:120%;">Copyright 2022-2022 WiseMysticalTree.cum all rights reserved.</p>
+        </div>
+        <div id="socialsdiv">
+            <a class="text">Instagram </a>
+            <a class="text">Twitter </a>
+            <a class="text">Tinder</a>
+        </div>
+    </div>
+</body>
+</html>

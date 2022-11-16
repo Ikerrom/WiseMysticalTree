@@ -11,9 +11,9 @@ urlpatterns = [
     path('cart/', views.cart, name='cart'),
     path('history/', views.history, name='history'),
 
-    path('addmeal/<int:id><where>', views.addmeal, name='addmeal'),
+    path('addmeal/<int:id>', views.addmeal, name='addmeal'),
     path('deletebatch/<int:id>', views.deletebatch, name='deletebatch'),
-    path('mealtobatch/', views.mealtobatch, name='mealtobatch'),
+    path('mealtobatch/<int:id>', views.mealtobatch, name='mealtobatch'),
     path('carttohistory/', views.carttohistory, name='carttohistory'),
     
     path('login/', views.login, name='login'),

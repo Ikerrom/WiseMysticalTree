@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 {% load static %}
 <html>
   <head>
@@ -12,7 +14,7 @@
           {% for meal in meals %}
           <div style='border: 2px solid black;border-radius:25px; width:20%;margin-top:1%; display:flex; flex-direction:column; align-items:center;'>
             <p style='font-size:90%;'>{{meal.mealname}}</p>
-            <img style='width:80%;' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjzx1sSURg8Eiw-ViuHbghhZ6n8i3Yma_Svy6kS9Z81o04tGxQ4Jq5YDvj4xEEOLs6INQ&usqp=CAU'>
+            <img style='width:80%;' src='{{meal.mealphoto}}'>
             <div style='display:flex; flex-direction:row;'>
               {% for mealcategory in mealcategories %}
                   {% if meal.id == mealcategory.meal.id %}
@@ -24,7 +26,7 @@
               <p style='font-size:100%;'>{{meal.mealdesc}}</p>
               <p style='font-size:100%;'>{{meal.price}}€</p>
             </div>
-            <td><a href="/addmeal/{{ meal.id }}menu">Add to cart</a></td>
+            <td><a href="/addmeal/{{ meal.id }}" target="_blank">Add to cart</a></td>
           </div>
           {% endfor %}
         </div>
@@ -32,3 +34,4 @@
     </div>
   </body>
 </html>
+{% endblock content %}

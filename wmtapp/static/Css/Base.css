@@ -1,0 +1,84 @@
+:root {
+    --army-green: #383E18ff;
+    --grullo: rgb(186, 178, 142);
+    --gold-fusion: #8D7C52ff;
+    --pine-tree: #353827ff;
+    --pine-tree-2: #1C1F14ff;
+}
+
+@font-face {
+    font-family: Tree;
+    src: url(../Font/BreatheFire.otf);
+}
+
+body,p,a {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+#logodiv {
+    padding: 2%;
+}
+
+#navdiv {
+    background-color:var(--pine-tree-2);
+    height: 10vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom:0.5vh solid var(--gold-fusion);
+}
+
+#navlinksdiv {
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-end;
+    width: 70%;
+}
+
+#navlinkdiv {
+    border: 0.4vh solid var(--gold-fusion);
+    border-radius: 40vh;
+    padding: 1%;
+    margin: 1%;
+}
+
+.text {
+    color: var(--grullo);
+    font-size: 150%;
+    font-family: Tree;
+}
+
+#navuser{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height:100%;
+    padding:2%;
+}
+
+#navlinkdiv:hover{
+    background-color: var(--gold-fusion);
+    color: var(--pine-tree);
+}
+
+#navlinkdiv:hover .text{
+    color: var(--pine-tree);
+}
+
+#usericon{
+    height: 90%;
+    border-radius: 50%;
+}
+
+#footerdiv{
+    background-color: var(--pine-tree);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    position: absolute;
+    bottom: 0;
+    width:100%
+}
