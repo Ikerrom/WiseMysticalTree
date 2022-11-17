@@ -31,6 +31,10 @@ def login(request):
     template = loader.get_template('login.html')
     return HttpResponse(template.render())
 
+def editprofield(request):
+    template = loader.get_template('registration/editprofield.html')
+    return HttpResponse(template.render())
+
 def logout(request):
     template = loader.get_template('login.html')
     return HttpResponse(template.render())

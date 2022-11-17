@@ -21,4 +21,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     
     path('register/', views.register, name='register'),
+    
+    path('editprofield/', views.editprofield, name='editprofield'),
 ]
