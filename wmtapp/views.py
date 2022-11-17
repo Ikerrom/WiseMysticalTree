@@ -12,6 +12,7 @@ from django.contrib.auth.models import User as UserDj
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 
 def index(request):
     if request.user.id == None:
@@ -36,17 +37,21 @@ def logout(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-
-            messages.success(request, f'Your account has been created. You can log in now!')    
+        user = UserCreationForm(request.POST)
+        if user.is_valid():
+            user.save()
+            adduser()
             return redirect('login')
     else:
-        form = UserCreationForm()
-
-    context = {'form': form}
+        user = UserCreationForm()
+    context = {'form': user}
     return render(request, 'registration/register.html', context)
+
+def adduser():
+    Authuser = get_user_model()
+    djuser = Authuser.objects.all().last()
+    user = User(uid = djuser)
+    user.save()
 
 def menu(request):
     meals = Meal.objects.all()

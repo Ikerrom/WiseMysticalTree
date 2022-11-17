@@ -2,6 +2,9 @@
 <hr>
 
 <form action="" method="POST">
+    <label for="photo">Photo:</label><br>
+    <input type="text" name="photo" value="photo url here"><br>
+
     {% csrf_token %}
     {{ form.as_p }}
 

@@ -37,7 +37,7 @@ class MealCategory(models.Model):
 
 class User(models.Model):
     uid = models.ForeignKey(djangouser,on_delete=models.PROTECT, null = True)
-    userphoto = models.CharField(max_length=255, null = True)
+    userphoto = models.TextField(null = True, default="https://cdn-icons-png.flaticon.com/512/1946/1946429.png")
     def __str__(self):
         return u'%s'%self.uid
 
