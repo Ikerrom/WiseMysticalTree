@@ -6,8 +6,17 @@
   </head>
 
 <body>
+  <div>
+    <h1>User Logo</h1>
 
-
+    <form action="addlogo/" method="post">
+    {% csrf_token %}
+    Logo link:<br>
+    <input name="logo">
+    <br><br>
+    <input type="submit" value="Submit">
+    </form>
+  </div>  
 </body>
 
 </html>
