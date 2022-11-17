@@ -16,13 +16,15 @@
         <div id="navlinksdiv">
                 <a class="button" href="../">Home</a>
                 <a class="button" href="/menu">Menu</a>
-            {% if user.is_authenticated %}
+            {% if userdj.is_authenticated %}
+                <a class="button" href="/cart">Cart</a>
+                <a class="button" href="/history">History</a>
                 <a class="button" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
             <div id="navuser">
-                <img id="usericon" src="{{usern.userphoto}}">
+                <img id="usericon" src="{{user.userphoto}}">
             </div>
             {% else %}
-                <a class="button" href="{% url 'login'%}?next={{request.path}}" target="_blank">Login</a>
+                <a class="button" href="{% url 'login'%}?next=" target="_blank">Login</a>
             {% endif %}
         </div>
 

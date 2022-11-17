@@ -18,7 +18,7 @@
             <div id="categorydiv">
               {% for mealcategory in mealcategories %}
                   {% if meal.id == mealcategory.meal.id %}
-                    <img style='width:100%;' src="{{ mealcategory.c.cphoto }}"> 
+                    <img class='categoryimg' src="{{ mealcategory.c.cphoto }}"> 
                   {% endif %}
               {% endfor %}
             </div>

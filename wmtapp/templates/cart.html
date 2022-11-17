@@ -1,37 +1,35 @@
+{% extends 'base.html' %}
 {% load static %}
-<html>
-  <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  </head>
-  <body>
-    <form action="../carttohistory/" method="post">
-    <div style="display: flex;flex-direction: column;align-items: center;width: 100%;">
-        <div>
-          <h1>{{ user }}</h1>
-        </div>
-        <div id="meals"style="display: flex; flex-direction: row; justify-content: space-evenly;width:100%;flex-wrap: wrap; margin-top:1%; width:80%;">
-          {% for batch in batches %}
-          <div style='border: 2px solid black;border-radius:25px; width:20%;margin-top:1%; display:flex; flex-direction:column; align-items:center;'>
-            <p style='font-size:90%;'>{{batch.batch.meal.mealname}}</p>
-            <p style='font-size:90%;'>{{batch.batch.quantity}}</p>
-            <total style='font-size:90%;'>{%widthratio batch.batch.meal.price 1 batch.batch.quantity %}€</total>
-            <img src="{{batch.batch.meal.mealphoto}}">
-            <a href="../deletebatch/{{batch.id}}">Delete</a>
-          </div>
-          {% endfor %}
-        </div>
-        <p id="total"></p> 
-        <button type="submit">Buy</button>
+{% block content %}
+<form action="../carttohistory/" method="post">
+  <div style="display: flex;flex-direction: column;align-items: center;width: 100%;">
+    <div>
+      <p class="text" style="font-size: 300%;">{{ user }} cart</p>
+    </div>
+    <div id="meals">
+      {% for batch in batches %}
+      <div class='mealdiv' style="width: 20%;">
+        <p class='text' style='font-size:200%;'>{{batch.batch.meal.mealname}}</p>
+        <img id='mealimage' src="{{batch.batch.meal.mealphoto}}">
+        <p class="text" style='font-size:150%;' for="quantity">QUANTITY: {{batch.batch.quantity}}</p>
+        <total class="text" style='font-size:200%;'>{%widthratio batch.batch.meal.price 1 batch.batch.quantity %}€
+        </total>
+        <a class="button" style='font-size:120%; width:40%;margin:auto;margin-bottom:4%;'
+          href="../deletebatch/{{batch.id}}">Delete</a>
       </div>
-    </form>
-    <script>
-      var total =0;
-      $(document).ready(function() {
-          $("total").each(function(i) {
-            total +=parseInt($(this).html().slice(0, -1));
-          });
-          $("#total").html("Total: " + total + "€");
-      });
-    </script>
-  </body>
-</html>
+      {% endfor %}
+    </div>
+    <p class="text" style="font-size: 300%;" id="total"></p>
+    <button class="button" type="submit">Buy</button>
+  </div>
+</form>
+<script>
+  var total = 0;
+  $(document).ready(function () {
+    $("total").each(function (i) {
+      total += parseInt($(this).html().slice(0, -1));
+    });
+    $("#total").html("Total: " + total + "€");
+  });
+</script>
+{% endblock content %}

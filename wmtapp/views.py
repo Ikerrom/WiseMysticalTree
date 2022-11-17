@@ -15,15 +15,14 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 
 def index(request):
-    if request.user.id == None:
-        template = loader.get_template('index.html')
-        return HttpResponse(template.render())
     template = loader.get_template('index.html')
-    user = UserDj.objects.get(id = request.user.id)
-    usern = User.objects.get(uid=user.id)
+    if request.user.id == None:
+        return HttpResponse(template.render())
+    userdj = request.user
+    user = User.objects.get(uid=userdj.id)
     context = {
-    'user': user,
-    'usern':usern
+    'userdj': userdj,
+    'user':user
     }
     return HttpResponse(template.render(context, request))
 
@@ -66,20 +65,30 @@ def menu(request):
     mealcategories = MealCategory.objects.all()
     template = loader.get_template('menu.html')
     context = {
-    'meals': meals,
-    'mealcategories' : mealcategories,
-    }
+        'meals': meals,
+        'mealcategories' : mealcategories,
+        }
+    if request.user.id != None:
+        userdj = request.user
+        user = User.objects.get(uid=userdj.id)
+        context = {
+        'meals': meals,
+        'mealcategories': mealcategories,
+        'userdj': userdj,
+        'user':user,
+        }
     return HttpResponse(template.render(context, request))
 
 def cart(request):
-    if str(request.user) == "AnonymousUser":
+    if request.user.id == None:
         return HttpResponseRedirect(reverse("login"))
-    user = request.user
-    userobj = User.objects.get(uid = user.id)
-    batches = UserBatchCart.objects.filter(user=userobj)
+    userdj = request.user
+    user = User.objects.get(uid=userdj.id)
+    batches = UserBatchCart.objects.filter(user=user)
     template = loader.get_template('cart.html')
     context = {
     'batches': batches,
+    'userdj' : userdj,
     'user' : user,
     }
     return HttpResponse(template.render(context, request))
@@ -89,11 +98,11 @@ def deletebatch(request,id):
     return HttpResponseRedirect(reverse('cart'))
 
 def history(request):
-    if str(request.user) == "AnonymousUser":
+    if request.user.id == None:
         return HttpResponseRedirect(reverse("login"))
-    user = request.user
-    userobj = User.objects.get(uid=user.id)
-    usercarts = list(UserBatchHistory.objects.filter(user=userobj))
+    userdj = request.user
+    user = User.objects.get(uid=userdj.id)
+    usercarts = list(UserBatchHistory.objects.filter(user=user))
     template = loader.get_template('history.html')
     grouped = []
     tmp =""
@@ -104,6 +113,8 @@ def history(request):
     grouped.reverse()
     context = {
     'grouped' : grouped,
+    'userdj' : userdj,
+    'user' : user,
     }
     return HttpResponse(template.render(context, request))
 
