@@ -6,27 +6,27 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   </head>
   <body>
-    <div style="display: flex;flex-direction: column;align-items: center;width: 100%;">
+    <div id="indexdiv"">
         <div>
-          <h1>Menu</h1>
+          <p class="text" style='font-size:300%;'>Menu</p>
         </div>
-        <div id="meals"style="display: flex; flex-direction: row; justify-content: space-evenly;width:100%;flex-wrap: wrap; margin-top:1%; width:80%;">
+        <div id="meals">
           {% for meal in meals %}
-          <div style='border: 2px solid black;border-radius:25px; width:20%;margin-top:1%; display:flex; flex-direction:column; align-items:center;'>
-            <p style='font-size:90%;'>{{meal.mealname}}</p>
-            <img style='width:80%;' src='{{meal.mealphoto}}'>
-            <div style='display:flex; flex-direction:row;'>
+          <div class="mealdiv">
+            <p class='text' style='font-size:200%;'>{{meal.mealname}}</p>
+            <img id='mealimage' src='{{meal.mealphoto}}'>
+            <div id="categorydiv">
               {% for mealcategory in mealcategories %}
                   {% if meal.id == mealcategory.meal.id %}
                     <img style='width:100%;' src="{{ mealcategory.c.cphoto }}"> 
                   {% endif %}
               {% endfor %}
             </div>
-            <div style='width:70%; text-align: center;'>
-              <p style='font-size:100%;'>{{meal.mealdesc}}</p>
-              <p style='font-size:100%;'>{{meal.price}}€</p>
+            <div style='width:70%; text-align: center; margin:auto;'>
+              <p class="text" style='font-size:150%;'>{{meal.mealdesc}}</p>
+              <p class="text" style='font-size:200%;'>{{meal.price}}€</p>
             </div>
-            <td><a href="/addmeal/{{ meal.id }}" target="_blank">Add to cart</a></td>
+            <td><a class='button' style='font-size:90%; width:80%;margin:auto;margin-bottom:4%;' href="/addmeal/{{ meal.id }}" target="_blank">Add to cart</a></td>
           </div>
           {% endfor %}
         </div>

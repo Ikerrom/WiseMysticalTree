@@ -14,23 +14,15 @@
         </div>
 
         <div id="navlinksdiv">
-            <div id="navlinkdiv">
-                <a class="text" href="../">Home</a>
-            </div>
-            <div id="navlinkdiv">
-                <a class="text" href="/menu">Menu</a>
-            </div>
+                <a class="button" href="../">Home</a>
+                <a class="button" href="/menu">Menu</a>
             {% if user.is_authenticated %}
-            <div id="navlinkdiv">
-                <a class="text" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
-            </div>
+                <a class="button" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
             <div id="navuser">
                 <img id="usericon" src="{{usern.userphoto}}">
             </div>
             {% else %}
-            <div id="navlinkdiv">
-                <a class="text" href="{% url 'login'%}?next={{request.path}}" target="_blank">Login</a>
-            </div>
+                <a class="button" href="{% url 'login'%}?next={{request.path}}" target="_blank">Login</a>
             {% endif %}
         </div>
 
@@ -49,9 +41,9 @@
             <p class="text" style="font-size:120%;">Copyright 2022-2022 WiseMysticalTree.cum all rights reserved.</p>
         </div>
         <div id="socialsdiv">
-            <a class="text">Instagram </a>
-            <a class="text">Twitter </a>
-            <a class="text">Tinder</a>
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" class="text">Instagram </a>
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" class="text">Twitter </a>
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" class="text">Tinder</a>
         </div>
     </div>
 </body>

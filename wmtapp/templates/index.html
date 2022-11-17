@@ -3,15 +3,15 @@
 {% block content %}
     <div id="indexdiv">
       <img id="tree" src="../static/Images/WiseMysticalTreeClose.jpg">
-      <a class="text" href=''>Try Again</a>
-      <div id="questions"style="border: 2px solid black; display: flex; flex-direction: column; align-items: center; width:60%;">
-        <p id="question">The most mystical and wise tree will choose the food for you</p>
-        <button id="start" value="">Start</button>
-        <button id="yes" value="" style="display:none;">Yes</button>
-        <button id="no" value="" style="display:none;">No</button>
-        <button id="showmeal" value="" style="display:none;">Show</button>
+      <a class="text" style="text-decoration: underline;" href=''>Try Again</a>
+      <div id="questions">
+        <p class="text" style="padding: 1%;" id="question">The most mystical and wise tree will choose the food for you</p>
+        <button class="button" id="start" value="">Start</button>
+        <button class="button" id="yes" value="" style="display:none;">Yes</button>
+        <button class="button" id="no" value="" style="display:none;">No</button>
+        <button class="button" id="showmeal" value="" style="display:none;">Show</button>
       </div>
-      <div id="meals"style="display: flex; flex-direction: row; justify-content: space-evenly;width:100%;flex-wrap: wrap; margin-top:1%; width:80%;"></div>
+      <div id="meals"></div>
       <audio id="audio" src="../static/Sound/oof.mp3"></audio>
     </div>
   <script>
@@ -152,19 +152,20 @@
             let lerroa ="";
             
             for (let i = 0; i < data.length; i++) {
-              lerroa += "<div style='border: 2px solid black;border-radius:25px; width:20%;margin-top:1%; display:flex; flex-direction:column; align-items:center;'>"
-              lerroa += "<p style='font-size:90%;'>"+data[i][0][0]+"</p>";
-              lerroa += "<img style='width:80%;' src='"+data[i][0][2]+"'>";
-              lerroa += "<div style='display:flex; flex-direction:row;'>"
+              lerroa += "<div class='mealdiv'>"
+              lerroa += "<p class='text' style='font-size:200%;'>"+data[i][0][0]+"</p>";
+              lerroa += "<img id='mealimage' src='"+data[i][0][2]+"'>";
+              lerroa += "<div id='categorydiv'>"
               for (let k = 1; k < data[i].length; k++) {
                 lerroa += "<img style='width:100%;' src='" + data[i][k][1] + "'>";
               }
               lerroa += "</div>"
-              lerroa += "<div style='width:70%; text-align: center;'>"
-              lerroa += "<p style='font-size:100%;'>"+data[i][0][1]+"</p>";
-              lerroa += "<p style='font-size:100%;'>"+data[i][0][3]+"€</p>";
+              lerroa += "<div style='width:70%; text-align: center; margin:auto;'>"
+              lerroa += "<p class='text' style='font-size:150%;'>"+data[i][0][1]+"</p>";
+              lerroa += "<p class='text' style='font-size:200%;'>"+data[i][0][3]+"€</p>";
               lerroa += "</div>"
-              lerroa += "<a style='font-size:90%;' href='addmeal/"+data[i][0][5]+"'target='_blank' > ADD TO CART </a>";
+              lerroa += "<br>";
+              lerroa += "<a class='button' style='font-size:90%; width:80%;margin:auto;margin-bottom:4%;' href='addmeal/"+data[i][0][5]+"'target='_blank' > ADD TO CART </a>";
               lerroa += "</div>"
             }
             $('#meals').html(lerroa)

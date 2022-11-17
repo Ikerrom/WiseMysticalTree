@@ -2,30 +2,31 @@
 <html>
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'Css/Base.css' %}">
   </head>
   <body>
     <form action="../mealtobatch/{{ meal.id }}" method="post">
-      <div style="display: flex;flex-direction: column;align-items: center;width: 100%; justify-content: center; height: 98vh;">
-            <div style='border: 2px solid black;border-radius:25px; width:20%;margin-top:1%; display:flex; flex-direction:column; align-items:center;'>
-              <p style='font-size:200%;'>{{meal.mealname}}</p>
-              <img style='width:80%;' src='{{meal.mealphoto}}'>
-              <div style='display:flex; flex-direction:row;'>
+      <div style="display:flex;flex-direction:column;align-items:center;width: 100%; justify-content: center; height: 98vh;">
+            <div class="mealdiv">
+              <p class='text' style='font-size:200%;'>{{meal.mealname}}</p>
+              <img id='mealimage' src='{{meal.mealphoto}}'>
+              <div id="categorydiv">
                 {% for mealcategorie in mealcategories %}
-                    {% if meal.id == y.mealcategorie.id %}
-                      <img style='width:100%;' src="{{ y.c.cphoto }}"> 
+                    {% if meal.id == mealcategorie.meal.id %}
+                      <img style='width:100%;' src="{{ mealcategorie.c.cphoto }}"> 
                     {% endif %}
                 {% endfor %}
               </div>
-              <div style='width:70%; text-align: center;'>
-                <p style='font-size:100%;'>{{meal.mealdesc}}</p>
+              <div style='width:70%; text-align: center; margin:auto;margin-bottom:4%;'>
+                <p class="text" style='font-size:150%;'>{{meal.mealdesc}}</p>
               </div>
                 <input value="{{ meal.id }}" style="display: none;" name="mealid" >
-                <label for="quantity">QUANTITY</label>
-                <input type="number" id="quantity" name="quantity" min="1" max="99" value="1" name="quantity"/>
-                <p id="total">{{meal.price}}€</p>
+                <label class="text" style='font-size:150%;' for="quantity">QUANTITY</label>
+                <input class="input" type="number" id="quantity" name="quantity" min="1" max="99" value="1" name="quantity"/>
+                <p id="total" class="text" style='font-size:150%;padding-top: 2%;'>{{meal.price}}€</p>
+                <button class='button' style='font-size:140%; width:70%;margin:auto;margin-bottom:4%;' id="submit" type="submit">Add to cart</button>
             </div>
-        <br>
-        <button id="submit" type="submit">Add to cart</button>
+        
       </form>
       </div>
       <script>
@@ -36,7 +37,7 @@
         $("#submit").click(function() {
           setTimeout(
         function () {
-          if (confirm("Logged succesfully!")) {
+          if (confirm("Added to cart succesfully!")) {
             close();
           }
         }, 20);

@@ -3,7 +3,7 @@
     --grullo: rgb(186, 178, 142);
     --gold-fusion: #8D7C52ff;
     --pine-tree: #353827ff;
-    --pine-tree-2: #1C1F14ff;
+    --pine-tree-2: rgb(28, 31, 20);
 }
 
 @font-face {
@@ -20,7 +20,7 @@ body,p,a {
 body{
     background:url("../Images/MysticalForest.jpg");
     background-size:cover;
-    background-position: center center;
+    background-attachment: fixed;
     height: 100vh;
     display: grid;
     grid-template-rows:auto 1fr auto;
@@ -49,21 +49,28 @@ body::-webkit-scrollbar {
     align-items: center;
     justify-content: space-between;
     border-bottom:0.5vh solid var(--gold-fusion);
-    margin-bottom: 6%;
+    margin-bottom: 4%;
 }
 
 #navlinksdiv {
     display: flex;
     flex-direction: row;
     justify-content:flex-end;
-    width: 70%;
+    align-items: center;
+    height: 100%;
+    width: 60%;
 }
 
-#navlinkdiv {
-    border: 0.4vh solid var(--gold-fusion);
-    border-radius: 40vh;
-    padding: 1%;
-    margin: 1%;
+#mealimage{
+    width:90%;
+    border-radius:1vw;
+    margin:auto;
+}
+
+#categorydiv{
+    display:flex;
+    flex-direction:row;
+    margin:auto;
 }
 
 .text {
@@ -80,15 +87,6 @@ body::-webkit-scrollbar {
     padding:2%;
 }
 
-#navlinkdiv:hover{
-    background-color: var(--gold-fusion);
-    color: var(--pine-tree);
-}
-
-#navlinkdiv:hover .text{
-    color: var(--pine-tree);
-}
-
 #usericon{
     height: 90%;
     border-radius: 50%;
@@ -100,7 +98,7 @@ body::-webkit-scrollbar {
     flex-direction: row;
     justify-content: space-around;
     width:100%;
-    margin-top:1%;
+    margin-top:4%;
 }
 
 #indexdiv {
@@ -111,9 +109,65 @@ body::-webkit-scrollbar {
     
 }
 
-
 #tree {
     border-radius: 50%;
     width: 17%;
     border: 0.4vh solid var(--gold-fusion);
+}
+
+#questions{
+    margin-top: 1%;
+    display: flex; 
+    border-radius: 1vw;
+    flex-direction: column;
+    align-items: center;
+    width:60%;
+    background-color:rgba(28, 31, 20,1);
+}
+
+#meals{
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-evenly;
+    width:100%;flex-wrap: wrap; 
+    margin-top:1%; 
+    width:80%;
+}
+
+.button{
+    border: 0.4vh solid var(--gold-fusion);
+    border-radius: 40vh;
+    padding: 1%;
+    margin: 1%;
+    color: var(--grullo);
+    font-size: 150%;
+    font-family: Tree;
+    background-color:rgba(28, 31, 20,0);
+}
+
+.button:hover{
+    background-color:rgba(28, 31, 20,.1);
+}
+
+.mealdiv{
+    display: grid;
+    grid-template-rows:auto 1fr auto;
+    border: 2px solid var(--grullo);
+    background-color: var(--pine-tree-2);
+    border-radius:25px; 
+    width:25%;margin-top:1%; 
+    text-align: center;
+}
+.input{
+    width:25%;
+    padding-left:10% ;
+    margin: auto;
+    background-color: var(--pine-tree-2);
+    box-sizing:border-box;
+    border: none;
+    font-family: Tree;
+    color: var(--grullo);
+    font-size: 200%;
+    font-family: Tree;
+    border: 2px solid var(--pine-tree);
 }
