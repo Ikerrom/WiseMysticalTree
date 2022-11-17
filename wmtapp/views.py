@@ -27,6 +27,10 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
 
+def logged(request):
+    template = loader.get_template('logged.html')
+    return HttpResponse(template.render())
+
 def login(request):
     template = loader.get_template('login.html')
     return HttpResponse(template.render())

@@ -17,6 +17,16 @@ body,p,a {
     text-decoration: none;
 }
 
+body{
+    background:url("../Images/MysticalForest.jpg");
+    background-size:cover;
+    background-repeat:   no-repeat;
+    background-position: center center;
+    height: 100vh;
+    display: grid;
+    grid-template-rows:auto 1fr auto;
+    overflow: hidden; 
+}
 #logodiv {
     padding: 2%;
 }
@@ -79,9 +89,8 @@ body,p,a {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    position: absolute;
-    bottom: 0;
-    width:100%
+    width:100%;
+    margin-top:1%;
 }
 
 #indexdiv {
@@ -89,9 +98,12 @@ body,p,a {
     flex-direction:column; 
     align-items: center; 
     width: 100%;
+    
 }
+
 
 #tree {
     border-radius: 50%;
+    width: 17%;
     border: 0.4vh solid var(--gold-fusion);
 }

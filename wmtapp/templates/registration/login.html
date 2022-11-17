@@ -30,17 +30,6 @@
   {# Assumes you setup the password_reset view in your URLconf #}
   <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
   {% endblock %}
-  <script>
-
-    $("#submit").click(function () {
-      setTimeout(
-        function () {
-          if (confirm("Logged succesfully!")) {
-            close();
-          }
-        }, 20);
-    });
-  </script>
 </body>
 
 </html>

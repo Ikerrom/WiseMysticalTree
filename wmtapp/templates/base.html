@@ -24,6 +24,9 @@
             <div id="navlinkdiv">
                 <a class="text" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
             </div>
+            <div id="navuser">
+                <img id="usericon" src="{{usern.userphoto}}">
+            </div>
             {% else %}
             <div id="navlinkdiv">
                 <a class="text" href="{% url 'login'%}?next={{request.path}}" target="_blank">Login</a>
@@ -31,9 +34,7 @@
             {% endif %}
         </div>
 
-        <div id="navuser">
-            <img id="usericon" src="{{usern.userphoto}}">
-        </div>
+
     </div>
 
     {% block content %}

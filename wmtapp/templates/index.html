@@ -1,20 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-  <div id="indexdiv">
-    <img id="tree" src="../static/Images/WiseMysticalTreeClose.jpg">
-    <a class="text" href=''>Try Again</a>
-    <div id="questions"style="border: 2px solid black; display: flex; flex-direction: column; align-items: center; width:60%;">
-      <p id="question">The most mystical and wise tree will choose the food for you</p>
-      <button id="start" value="">Start</button>
-      <button id="yes" value="" style="display:none;">Yes</button>
-      <button id="no" value="" style="display:none;">No</button>
-      <button id="showmeal" value="" style="display:none;">Show</button>
+    <div id="indexdiv">
+      <img id="tree" src="../static/Images/WiseMysticalTreeClose.jpg">
+      <a class="text" href=''>Try Again</a>
+      <div id="questions"style="border: 2px solid black; display: flex; flex-direction: column; align-items: center; width:60%;">
+        <p id="question">The most mystical and wise tree will choose the food for you</p>
+        <button id="start" value="">Start</button>
+        <button id="yes" value="" style="display:none;">Yes</button>
+        <button id="no" value="" style="display:none;">No</button>
+        <button id="showmeal" value="" style="display:none;">Show</button>
+      </div>
+      <div id="meals"style="display: flex; flex-direction: row; justify-content: space-evenly;width:100%;flex-wrap: wrap; margin-top:1%; width:80%;"></div>
+      <audio id="audio" src="../static/Sound/oof.mp3"></audio>
     </div>
-    <div id="meals"style="display: flex; flex-direction: row; justify-content: space-evenly;width:100%;flex-wrap: wrap; margin-top:1%; width:80%;"></div>
-    <audio id="audio" src="../static/Sound/oof.mp3"></audio>
-  </div>
-
   <script>
     var categorygroups = [];
     var preferences = [];

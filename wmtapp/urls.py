@@ -17,7 +17,8 @@ urlpatterns = [
     path('carttohistory/', views.carttohistory, name='carttohistory'),
     
     path('login/', views.login, name='login'),
-    
+    path('logged/', views.logged, name='logged'),
+
     path('accounts/', include('django.contrib.auth.urls')),
     
     path('register/', views.register, name='register'),
