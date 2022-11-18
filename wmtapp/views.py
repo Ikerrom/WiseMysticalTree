@@ -47,7 +47,6 @@ def register(request):
             return HttpResponseRedirect(reverse("login"))
     else:
         user = UserCreationForm()
-
     context = {'form': user}
     return render(request, 'registration/register.html', context)
 
@@ -167,6 +166,8 @@ def filterquestion(request):
     #POST gotten str to list
     for category in Category.objects.all():
         categorylist.append(category.cname)
+    
+    print(categorylist)
     cgfilterlist = json.loads(cgfilterstr)
 
 
@@ -175,7 +176,10 @@ def filterquestion(request):
         cgobj = CategoryGroup.objects.get(cgname=cg)
         cgcaregorylist = CategoryGroupCategory.objects.filter(cg=cgobj)
         for cgcaregory in cgcaregorylist:
-            categorylist.remove(cgcaregory.c.cname)
+            try:
+                categorylist.remove(cgcaregory.c.cname)
+            except:
+                break
 
     #Get filter questions,by cheking the questioncategories in the category list without duplicates
     questioncategories = list(QuestionCategory.objects.all())
@@ -285,7 +289,10 @@ def filtermeal(request):
             break
     
     if len(perfectmatch) > 0:
-        index = random.randrange(0, len(perfectmatch)-1)
+        if len(perfectmatch) == 1:
+          index = 0;
+        else:
+           index = random.randrange(0, len(perfectmatch)-1)
         meallist.append(perfectmatch[index])
         perfectmatch.pop(index)
 

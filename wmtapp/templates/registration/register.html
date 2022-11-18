@@ -1,10 +1,23 @@
-<h3>Register here</h3>
-<hr>
+{% load static %}
+<html>
 
-<form action="" method="POST">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'Css/Base.css' %}">
+</head>
 
-    {% csrf_token %}
-    {{ form.as_p }}
+<body>
+    
+    <div style="display:flex;flex-direction:column;align-items:center;width: 100%; justify-content: center; height: 98vh;">
+        <p class="text" style="font-size:300%;">Register</p>
+        <div class="mealdiv">
+            <form action="" method="POST"  style="margin-top:5%;">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Register</button>
+            </form>
+        </div>
+</div>
+</body>
 
-    <button type="submit">Register</button>
-</form>
+</html>
