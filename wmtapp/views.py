@@ -93,6 +93,26 @@ def deletebatch(request,id):
     UserBatchCart.objects.get(id=id).delete()
     return HttpResponseRedirect(reverse('cart'))
 
+def editprofile(request):
+    if request.user.id == None:
+        return HttpResponseRedirect(reverse("login"))
+    userdj = request.user
+    user = User.objects.get(uid=userdj.id)
+    template = loader.get_template('registration/editprofile.html')
+    context = {
+            'user':user
+    }
+    return HttpResponse(template.render(context, request))
+
+@csrf_exempt
+def addlogo(request):
+    logo = request.POST['logo']
+    userdj = request.user
+    user = User.objects.get(uid=userdj.id)
+    user.userphoto = logo
+    user.save()
+    return HttpResponseRedirect(reverse('index'))
+
 def history(request):
     if request.user.id == None:
         return HttpResponseRedirect(reverse("login"))

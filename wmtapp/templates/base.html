@@ -21,7 +21,9 @@
                 <a class="button" href="/history">History</a>
                 <a class="button" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
             <div id="navuser">
-                <img id="usericon" src="{{user.userphoto}}">
+                <a id="usericon" href="/editprofile">
+                    <img id="usericon" src="{{user.userphoto}}">
+                </a>
             </div>
             {% else %}
                 <a class="button" href="{% url 'login'%}?next=" target="_blank">Login</a>

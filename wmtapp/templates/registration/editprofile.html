@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'Css/Base.css' %}">
+  </head>
+
+<body>
+
+    <div style="display:flex;flex-direction:column;align-items:center;width: 100%; justify-content: center; height: 98vh;">
+      <p class="text" style="font-size:300%;">{{user}} profile picture</p>
+      <div class="mealdiv" style="width: 13%;">
+        <form method="post" action="addlogo/">
+          <div style="margin-top:6%;">
+            <p class="text" style="font-size:150%;">Logo link</p>
+            <input name="logo" placeholder="URL">
+          </div>
+          <div>
+            <input class="button" style="margin-top:5%;" id="submit" type="submit" value="Submit" />
+          </div>
+        </form>
+        <a class="text" href="/register">Dont have an account?Click here</a>
+      </div>
+    </div>
+</body>
+
+</html>
