@@ -3,13 +3,13 @@
 {% block content %}
     <div id="indexdiv">
       <img id="tree" src="../static/Images/WiseMysticalTreeClose.jpg">
-      <a class="text" style="text-decoration: underline;" href=''>Try Again</a>
+      <a class="text" style="text-decoration: underline;" href=''>Te has equivocado?</a>
       <div id="questions">
-        <p class="text" style="padding: 1%;" id="question">The most mystical and wise tree will choose the food for you</p>
-        <button class="button" id="start" value="">Start</button>
-        <button class="button" id="yes" value="" style="display:none;">Yes</button>
+        <p class="text" style="padding: 1%;" id="question">Quieres preguntar mi pequeño?</p>
+        <button class="button" id="start" value="">SI</button>
+        <button class="button" id="yes" value="" style="display:none;">Si</button>
         <button class="button" id="no" value="" style="display:none;">No</button>
-        <button class="button" id="showmeal" value="" style="display:none;">Show</button>
+        <button class="button" id="showmeal" value="" style="display:none;">Enseñame el camino</button>
       </div>
       <div id="meals"></div>
       <audio id="voice" src="../static/Sound/WiseMysticalTreeVoice.mp3"></audio>
@@ -101,7 +101,7 @@
               $('#question').html(data[0]);
               preference = data[2];
             } else {
-              $('#question').html("The MysticalWiseTree thinks that the perfect meal for your need is");
+              $('#question').html("Mi pequeño quieres que te ilumine?");
               $("#yes").hide();
               $("#no").hide();
               $("#showmeal").show();
