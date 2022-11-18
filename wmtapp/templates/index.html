@@ -12,7 +12,8 @@
         <button class="button" id="showmeal" value="" style="display:none;">Show</button>
       </div>
       <div id="meals"></div>
-      <audio id="audio" src="../static/Sound/oof.mp3"></audio>
+      <audio id="voice" src="../static/Sound/WiseMysticalTreeVoice.mp3"></audio>
+      <audio id="music" src="../static/Sound/WiseMysticalTreeSong.mp3"></audio>
     </div>
   <script>
     var categorygroups = [];
@@ -20,29 +21,36 @@
     var notimes = 0;
     var number = 0;
     var preference = false;
-
+    var i = 0;
+    var voice = document.getElementById("voice");
+    var music = document.getElementById("music");
+    music.loop = true;
+    music.volume = 0.3;
     function setTalkingTree() {
-        var question = $("#question").html().split(" ");
-        for (let i = 0; i <question.length*2; i++) {
-          let interbal = Math.floor((Math.random() * 1500) + 1000);
-          setTimeout(
-            function () {
-              var audio = document.getElementById("audio");
-              audio.play();
-              if($("#tree").attr('src') == "../static/Images/WiseMysticalTreeClose.jpg"){
-                $("#tree").attr('src',"../static/Images/WiseMysticalTreeOpen.jpg") ;
-              }else{
-                $("#tree").attr('src', "../static/Images/WiseMysticalTreeClose.jpg");
-              }
-            }, interbal);
+      var question = $("#question").html().split(" ");
+      setTimeout(function() {
+        voice.play();
+        if($("#tree").attr('src') == "../static/Images/WiseMysticalTreeClose.jpg"){
+          $("#tree").attr('src',"../static/Images/WiseMysticalTreeOpen.jpg") ;
+        }else{
+          $("#tree").attr('src', "../static/Images/WiseMysticalTreeClose.jpg");
         }
-        $("#question").attr('src', "../static/Images/WiseMysticalTreeClose.jpg");
+        i++;
+        if (i < question.length) {
+          setTalkingTree();             
+        }else{
+          $("#tree").attr('src', "../static/Images/WiseMysticalTreeClose.jpg");
+        }              
+      }, 100)
+      
     }
 
     $(document).ready(function () {
+      music.play();
       setTalkingTree();
 
       $("#start").click(function () {
+        i = 0
         $("#yes").show();
         $("#no").show();
         $("#start").hide();
@@ -70,6 +78,7 @@
       });
 
       $("#yes").click(function () {
+        i = 0
         categorygroups.push($("#yes").val());
         if (preference) {
           preferences.push($("#yes").val());
@@ -105,6 +114,7 @@
       });
 
       $("#no").click(function () {
+        i = 0
         notimes++;
         number += 1;
         let json = {
